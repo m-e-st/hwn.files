@@ -4,6 +4,8 @@ version: 2026-10-13
 title: "Apps & Files"
 backgroundimage: under-construction-icon.png    
 backgroundposition: middle
+
+refreshButton: "<span class='w3-right' onclick='location.reload();'>⟳</span>"
 ---
 {% if backgroundimage %}
   <img src="{{ site.imagedir }}/bg/{{ backgroundimage }}"
@@ -20,9 +22,9 @@ backgroundposition: middle
 <main class="tabs">
 	<nav class=" w3-xlarge">
 		<input type="radio" id="tab1" name="tab-group" checked>
-		<label for="tab1" class="tab-label w3-quarter">Padland</label>
+		<label for="tab1" class="tab-label w3-quarter">Vorträge {{refreshButton|safe}}</label>
 		<input type="radio" id="tab2" name="tab-group">
-		<label for="tab2" class="tab-label w3-quarter">Vorträge</label>
+		<label for="tab2" class="tab-label w3-quarter">Padland {{refreshButton|safe}}</label>
 		<input type="radio" id="tab3" name="tab-group">
 		<label for="tab3" class="tab-label w3-quarter">Download</label>
 		<input type="radio" id="tab4" name="tab-group">
@@ -31,10 +33,10 @@ backgroundposition: middle
 	<hr class="w3-border-black w3-topbar">
 	<div class="tab-frame" style="margin-top:-20px">
 		<article class="tab-content" id="content1">
-			<iframe src="/frames/padland.html" loading="lazy"></iframe>
+			<iframe src="/frames/lectures.html" loading="lazy"></iframe>
 		</article>
 		<article class="tab-content" id="content2">
-			<iframe src="/frames/lectures.html" loading="lazy"></iframe>
+			<iframe src="/frames/padland.html" loading="lazy"></iframe>
 		</article>
 		<article class="tab-content" id="content3">
 <!--		<iframe src="/frames/download.html" loading="lazy"></iframe>	-->
@@ -45,3 +47,57 @@ backgroundposition: middle
 	</div>	
 </main>
 
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+	
+	// Get query parameters from URL
+	const urlParams = new URLSearchParams(window.location.search);
+	const tabParam = urlParams.get('tab');
+
+	// If tab parameter exists, select the corresponding radio button
+	if (tabParam) {
+		const targetId = 'tab' + tabParam;
+		const radioButton = document.getElementById(targetId);
+		
+		if (radioButton) {
+			radioButton.checked = true;
+		}
+		// Remove the query parameter from URL
+		const cleanUrl = window.location.protocol + '//' + 
+						window.location.host + 
+						window.location.pathname;
+		window.history.replaceState({}, document.title, cleanUrl);
+	}
+
+	const sub = getMySub(); // .toLowerCase();
+	const tld = getMyTLD(); // .toLowerCase();
+	console.log ("windows.location", window.location, "subdomain #1", sub, "TLD", tld);
+	switch (sub) {
+		case "vortrag":	document.getElementById('tab1').checked = true;		break;
+		case "etherpad":
+		case "padland":	document.getElementById('tab2').checked = true;		break;
+		case "files":	document.getElementById('tab3').checked = true;		break;
+		case "app":
+		case "webxdc":	document.getElementById('tab4').checked = true;		break;
+		default:
+
+	}
+});	
+
+/**
+ * 
+ **/
+
+const getMyTLD = () => window.location.hostname.split('.').at(-1);
+const getMySub = () => {
+		const TLDs = new Set(['de', 'eu', 'tk', 'com', 'org', 'net', 'name', 'lan', 'io', 'dev']);
+		const hostname = window.location.hostname;
+		const parts = hostname.split('.');
+		const domain = TLDs.has(parts.at(-1)) ? parts.slice(-2).join('.') : parts.at(-1);
+		const sub = hostname.slice(0, -(domain.length + 1));
+		return sub || null;
+};
+ 
+</script>

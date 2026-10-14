@@ -1,10 +1,176 @@
 ---
 layout: base.njk
 date: 2026-10-13
+
+
+groups:
+  - cafe
+  - digis
+  - fvsbo
+  - hwn
+  - luise
+  - privat
+
 ---
-<main style="margin:0;padding:0;overflow:hidden;cursor:none;height:100vh;">
-<h1>Padland coming soon …</h1>
+
+<style>
+    /* Kleiner Fix, um Select und Input exakt gleich hoch zu machen */
+    .ms-pale-theme.w3-select {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        height: 40px; /* Alternativ: feste Höhe für beide Felder */
+        box-sizing: border-box;
+    }
+    .ms-pale-theme.w3-input {
+        height: 40px; /* Gleiche feste Höhe für Inputs */
+        box-sizing: border-box;
+    }
+</style>
+
+
+<main class="w3-large">
+	<details class="w3-panel ms-pale-theme w3-padding w3-justify" style="margin-top:0px;">
+		<summary>Neues Etherpad anlegen</summary>
+		<p>
+			Die Anlage neuer Etherpads auf dem Server 
+			<a class="w3-tag" href="https://pad.hwn.de" target="{{site.target}}">pad.hwn.de</a> 
+			ist gesperrt.
+			Neue Etherpads können nur noch über dieses Formular vorgenommen werden.
+			der Aufruf bestehender Etherpads ist weiterhin direkt möglich.
+		</p><p>
+			Nach Behebung der Vandalismusschäden durch Bots entsprechen alle 
+			neuen Etherpads einem festen Namensschema aus drei Teilen:
+			<ul>
+				<li><b>Gruppe</b>: Die Namen der Gruppen sind fest vorgegeben. 
+					Alle verfügbaren Gruppen sind im Auswahlfeld hinterlegt.
+					Neue Gruppen werden nach Absprache eingerichtet.</li>
+				<li><b>Name</b>: Der Name kann frei gewählt werden. 
+					Der Name sollte möglichst keine Sonderzeichen enthalten,
+					um eine gültigen Aufruflink für das Etherpad zu erzeugen.</li>
+				<li><b>Secret</b>: Das Secret ist eine zufällige Zeichenkette
+					die verhindern soll, dass die Adresse des Etherpads leicht 
+					zu erraten ist. Sie wird automatisch generiert.</li>
+			</ul>
+		</p>
+	</details>
+	
+	<form id="etherpadForm" class="w3-container">
+		<div class="w3-row">
+			<div class="w3-col s12 m2 l1">
+				<label class="ms-logotext w3-small"><b>Gruppe</b></label>
+				<select class="w3-select w3-border ms-pale-theme x-w3-center" name="padGroup" id="newpadGroup">
+					<option value="" selected>&nbsp;???</option>
+					{% for group in groups %}
+						<option value="{{group}}" >&nbsp;{{group}}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="w3-col s12 m6 l8">
+				<label class="ms-logotext w3-small"><b>Name</b></label>
+				<input class="w3-input w3-border ms-pale-theme" type="text" name="padName" placeholder="Name des Pad" id="newpadName">
+			</div>
+			<div class="w3-col s12 m4 l3">
+				<label class="ms-logotext w3-small"><b>Secret <i id="newpadRecycle" class="w3-large w3-right" style="cursor: pointer;" title="Secret neu generieren">⟳&nbsp;</i></b></label>
+				<input class="w3-input w3-border ms-pale-theme" type="text" name="padSecret" placeholder="Secret" id="newpadSecret">
+			</div>
+		</div>
+
+		<div>
+			<label class="ms-logotext w3-small"><b>Etherpad URL</b></label>
+			<input class="w3-input w3-border ms-pale-theme" type="text" name="padURL" placeholder="… wird ermittelt …" id="newpadURL" readonly>
+		</div>
+
+		<div class="w3-section w3-right">
+			<button type="reset"  id="newpadReset"  class="w3-btn w3-medium-gray" style="width:8rem">Reset</button>
+			<button type="submit" id="newpadSubmit" class="w3-btn ms-theme" style="width:8rem">Anlegen</button>
+		</div>
+
+{#		
+		
+			<div class="w3-col w3-threequarter w3-margin-right">
+				<label class="ms-logotext w3-small"><b>Titel</b></label>
+				<input class="w3-input w3-border ms-pale-orange" type="text" name="messageTitle" placeholder="Überschrift der Nachricht" id="messageTitle" value="{{ 'TEST via Announcement-Kanäle' if not site.env }}">
+
+				<label class="ms-logotext w3-small"><b>Nachricht</b></label>
+				<textarea class="w3-input w3-border ms-pale-orange" type="text" name="messageText" rows="7" required placeholder="Text der Nachricht" style="resize: vertical;"></textarea>
+			</div>
+			<div class="w3-rest">
+				<label class="ms-logotext w3-small"><b>Priorität</b></label>
+				 <select class="w3-select w3-border ms-pale-orange" name="messagePriority">
+					<option value="1">&nbsp; minimal</option>
+					<option value="2">&nbsp; niedrig</option>
+					<option value="3" selected>&nbsp; normal</option>
+					<option value="4">&nbsp; hoch</option>
+					<option value="5">&nbsp; kritisch</option>
+				</select>
+
+				<label class="ms-logotext w3-small"><b>Symbol</b></label>							<!-- https://docs.ntfy.sh/emojis/ -->
+				<select class="w3-select w3-border ms-pale-orange" name="messageSymbol" id="messageSymbol">
+					<option value="" selected> </option>
+					{% for symbol in ntfy.symbols %}
+						<option value="{{symbol.name}}" >&nbsp; {{symbol.icon}} &nbsp;{{symbol.text}}</option>
+					{% endfor %}
+				</select>
+				<div class="ms-pale-orange w3-border w3-margin-top w3-padding w3-normal">
+					<input class="w3-check" style="height:16px;top:2px" name="ntfy"		type="checkbox" checked="checked" disabled>
+					<label class="">Benachrichtigung</label><br>
+					<input class="w3-check" style="height:16px;top:2px" name="telegram"	type="checkbox" checked="checked">
+					<label id="telegramLabel">Telegram-Kanal {{ "🔖" if env else "🏷️" }}</label><br>
+					<input class="w3-check" style="height:16px;top:2px" name="mail"		type="checkbox" xchecked="checked" disabled>
+					<label class="w3-text-grey">Mail-Versand</label><br style="margin-bottom:16px;">
+					<input class="w3-check" style="height:16px;top:2px" name="test"		type="checkbox" {{ 'checked="checked"' if not site.env }} id="testCheckbox">
+					<label class="{{ 'w3-text-grey' if site.env }}">Testbetrieb</label>
+				</div>
+			</div>
+		</div>
+		<div class="w3-bar w3-padding-24">
+			<output class="w3-margin-left" id="messageResult"></output>
+			<div class="w3-right">
+				 <select class="w3-select w3-border w3-pale-blue" name="messagePreset">
+					<option value=" " selected>&nbsp; </option>
+					<option value="ausfall">&nbsp; Sprachcafé fällt aus</option>
+					<option value="buerger">&nbsp; Sprachcafé im Bürgerzentrum</option>
+					<option value="regine" >&nbsp; Sprachcafé im Regine-Hildebrandt-Haus</option>
+					<option value="gruenen">&nbsp; Sprachcafé im Büro der Grünen</option>
+					<option value="online" >&nbsp; Online Sprachcafé als Videokonferenz</option>
+				</select>
+			</div>
+			<span class="w3-btn w3-disabled w3-right"><b>Textvorschlag</b></span>
+		</div>
+#}		
+	</form>
+		
+		
+<script>
+
+
+document.addEventListener("DOMContentLoaded", function() {
+	
+});
+
+</script>		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 </main>
-
-
-
