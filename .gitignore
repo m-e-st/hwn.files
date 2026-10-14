@@ -2,10 +2,11 @@
 
 
 # Project standard ignores 
-dist
-public
-stash
-assets
+/dist
+/public
+/stash
+/assets
+/common
 
 # node.js
 node_modules/
@@ -24,3 +25,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Don't commit temp build files
+src/static/main.min.js
+src/static/main.min.css
+src/_includes/styles.min.css

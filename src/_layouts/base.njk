@@ -1,0 +1,65 @@
+<!-- stumpp.name -->
+<!--  v6 07.01.2024 jetzt mit Bundles -->
+<!--  v7 08.01.2024 pkg.version statt site.version -->
+<!--  v8 14.01.2024 redirect statt meta_... -->
+<!--  v9 09.03.2025 language in page or _site or "de" -->
+<!-- v10 03.11.2025 iframe unterstützung... -->
+
+<!DOCTYPE html>
+<html lang="{{language|d(site.language)|d('de')}}">
+    <head>
+		<meta charset="utf-8">											<!-- The following 2 meta tags *must* come first in the <head> -->
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<base href="/">
+		{% if redirect -%}
+		<meta http-equiv="refresh" content="{{ redirect.delay | d(10) }} url={{ redirect.url | d('/') }}">
+		{%- endif %}
+		<meta name="robots" content="none">								<!-- Control the behavior of search engine crawling and indexing -->
+		<meta name="googlebot" content="none">							<!-- All Search Engines -->
+		<meta name="google" content="nositelinkssearchbox">				<!-- Tells Google not to show the sitelinks search box -->
+		<meta name="google" content="notranslate">						<!-- Tells Google not to provide a translation for this document -->
+		<meta name="google" content="noimageindex">						<!-- Tells Google not to index images -->
+		<meta name="generator" content="eleventy">						<!-- Identify the software used to build the document, Eleventy ftw! -->
+		<meta name="format-detection" content="telephone=no">			<!-- Disable automatic detection and formatting of possible phone numbers -->
+		<meta name="generator" content="{{ eleventy.generator }}">
+
+		<title>{% if title -%}{{ title }}{%- else -%}{{ site.title }}{%- endif %}</title>
+		<meta name="description" content="{% if description -%}{{ description }}{%- else -%}{{ site.description }}{%- endif %}">
+
+		<link rel="stylesheet" href="static/stylesheets.css" />			<!-- Alle Stylesheets in include über stylesheets.njk -->
+
+		{% if not redirect %}
+			{%- if enable.jquery -%}
+				<script src="static/lib/jquery.min.js" ></script>		<!-- jquery wird separat vor den anderen Scripten eingebunden -->
+			{%- endif -%}
+		
+			<script src="static/javascripts.js" defer></script>			<!-- Alle Javascripts in include über javascripts.njk -->
+
+			{%- if enable.mermaid -%}										<!-- mermaid wird separat nach den anderen Scripten ...	-->
+				<script src="static/lib/mermaid.min.js" defer></script>	<!-- ... eingebunden									-->
+				<script>												<!-- ... und initalisiert 								-->
+					document.addEventListener("DOMContentLoaded", function(evt)	{
+										mermaid.initialize({startOnLoad: true});});
+				</script>
+			{%- endif -%}
+			{% if iframe %}
+				<script>
+					try {
+					  if (window.self === window.top) {			/* THIS PAGE CANNOT BE SHOWN OUTSIDE AN IFRAME! */
+						window.top.location.href = "{{ iframe.substitute | d(iframe) | d('/') }}";
+					  }
+					} catch (e) {
+					  // If access is blocked by X-Frame-Options, handle gracefully
+					  console.log('Cannot redirect - iframe protection active',"«{{ iframe.substitute | d(iframe) | d('/') }}»", "«{{iframe.substitute}}»", "«{{iframe}}»" );
+					}			
+					</script>
+			{% endif %}
+			
+		{% endif %}
+    </head>
+
+    <body>
+		{{ content | safe }}
+    </body>
+</html>

@@ -1,0 +1,115 @@
+/***
+ *	stumpp main.css
+ *
+ *	Copyright 2024 Michael Stumpp (michael@stumpp.name)
+ *
+ *  07.08.2023 default styles for layouts (sidebar, content)
+ *  22.01.2025 configurable main page color
+ *  23.02.2025 adaptions "Sprachcafé"
+ *	17.05.2025 new color scheme
+ *	23.05.2025 colors karen v2
+ *	24.05.2025 using colors.yaml
+ *	29.03.2026 adapted to intern.stumpp
+ */
+
+/*** ************************************************************** ***/
+
+body {
+	background-color: white;
+	background-image: linear-gradient(white, white, white, {{color.background}});
+	background-attachment: fixed;
+ 	height: 100vh;
+ 	color: {{color.text}};
+	accent-color:{{color.accent}};
+    margin: 0;
+    padding: 0;
+    min-width:180px;		// Minimalbreite für Menü
+}
+
+main {
+}
+header {
+	margin-top: 0;
+}
+footer {
+	margin-bottom: 0;
+}
+
+a, a:hover {
+	text-decoration: none;
+}
+hr {
+	background-color: {{color.ruler}};
+	color: {{color.ruler}};
+	margin-top:0;
+	border: 1px solid;
+}
+
+/*** ************************************************************** ***/
+/*** *** Sprachcafe color scheme from _data/color.yaml			*** ***/
+
+.ms-logotext { color:{{color.layout.logotext}}; }
+.ms-logosub  { color:{{color.layout.subtext}};  }
+
+.ms-button-active { color:white;background-color:{{color.button.active}};}
+.ms-markdown-headline { color:{{color.markdown.headtext|d('black')}};background-color:{{color.markdown.headline}};}  /* für lucide icons in markdown headlines */
+.ms-markdown-border { border-color:{{color.markdown.border|d('#feb35e')}}; } 
+
+.ms-submenu { color:white;background-color:{{color.theme.dark}};}
+.ms-submenu-active { color:white;background-color:{{color.theme.base}};}
+
+/* -- */
+
+/* .ms-orange { color:{{color.markdown.headtext|d('black')}}; background-color:{{color.markdown.headline}}; } *//* kv-silver */
+/*
+  base : "#ffeb3b"      # sb logo   : text = #000
+  pale : "#FFFCE6"      # == l4     : text = #000
+  light: "#FFF8B8"      # == l3     : text = #000
+  dark : "#756A00"      # == d3     : text = #FFF
+  heavy: "#1A1700"      # == d5     : text = #FFF
+  */
+.ms-theme,.ms-hover-theme:hover{color:#000!important;background-color:{{color.theme.base|d('#ffeb3b')}}!important}
+.ms-text-theme,.ms-hover-text-theme:hover{color:{{color.theme.base|d('#ffeb3b')}}!important}
+.ms-border-theme,.ms-hover-border-theme:hover{border-color:{{color.theme.base|d('#ffeb3b')}}!important}
+
+.ms-pale-theme,.ms-hover-pale-theme:hover{color:#000!important;background-color:{{color.theme.pale|d('#FFFCE6')}}!important}
+.ms-text-pale-theme,.ms-hover-text-pale-theme:hover{color:{{color.theme.pale|d('#FFFCE6')}}!important}
+.ms-border-pale-theme,.ms-hover-border-pale-theme:hover{border-color:{{color.theme.pale|d('#FFFCE6')}}!important}
+
+.ms-light-theme,.ms-hover-light-theme:hover{color:#000!important;background-color:{{color.theme.light|d('#FFF8B8')}}!important}
+.ms-text-light-theme,.ms-hover-text-light-theme:hover{color:{{color.theme.light|d('#FFF8B8')}}!important}
+.ms-border-light-theme,.ms-hover-border-light-theme:hover{border-color:{{color.theme.light|d('#FFF8B8')}}!important}
+
+.ms-dark-theme,.ms-hover-dark-theme:hover{color:#FFF!important;background-color:{{color.theme.dark|d('#756A00')}}!important}
+.ms-text-dark-theme,.ms-hover-text-dark-theme:hover{color:{{color.theme.dark|d('#756A00')}}!important}
+.ms-border-dark-theme,.ms-hover-border-dark-theme:hover{border-color:{{color.theme.dark|d('#756A00')}}!important}
+
+.ms-heavy-theme,.ms-hover-heavy-theme:hover{color:#FFF!important;background-color:{{color.theme.heavy|d('#1A1700')}}!important}
+.ms-text-heavy-theme,.ms-hover-text-heavy-theme:hover{color:{{color.theme.heavy|d('#1A1700')}}!important}
+.ms-border-heavy-theme,.ms-hover-border-heavy-theme:hover{border-color:{{color.theme.heavy|d('#1A1700')}}!important}
+
+
+/*** ************************************************************** ***/
+/*** *** Modifications of w3 classes for sprachcafe color scheme ** ***/
+
+.w3-tag { color:{{color.button.hovertext|d('black')}}!important;background-color:{{color.button.hover}}!important;}
+.w3-dropdown-hover:hover > .w3-button:first-child,.w3-dropdown-click:hover > .w3-button:first-child{color:black;background-color:{{color.button.hover}};}
+.w3-button:hover{color:#000!important;background-color:{{color.button.hover}}!important}
+
+/* you always need the middle gray, which w3 uses internally */
+.w3-medium-gray,.w3-hover-medium-gray:hover{color:#000!important;background-color:#CCC!important}
+.w3-text-medium-gray,.w3-hover-text-medium-gray:hover{color:#CCC!important}
+.w3-border-medium-gray,.w3-hover-border-medium-gray:hover{border-color:#CCC!important}
+
+/*** ************************************************************** ***/
+
+.sidebar { width:130px; }
+.content { margin-left:130px; }
+
+@media only screen and (max-width: 600px) {
+.sidebar {display:none }
+.content { margin-left:0px; }
+}
+
+/*** ************************************************************** ***/
+

@@ -1,0 +1,51 @@
+---
+type: layout
+layout: base.njk
+version: 2026-03-29
+
+# 03.04.2025 - Harmonisierung über alle Layouts
+# 28.05.2025 - Hauptmenü-Punkt ist anklickbar, wenn URL angegeben ist.
+# 28.08.2025 - menu: caption before name
+# 28.08.2025 - background image
+# 03.11.2025 - display environment when hovering over version number
+# 17.11.2025 - title | d(site.title)
+# 29.03.2026 - zusammenführung von sprachcafe und blog.stumpp
+# 31.03.2026 - header / footer ausgelagert
+# 10.08.2026 - main classlist korrigiert
+
+format:
+  activebutton: ms-button-active
+  keepbuttonsleft: false
+---
+{% if backgroundimage %}
+	<div style="position:relative">
+		<img src="{{site.imagedir}}/bg/{{backgroundimage}}" width="50%" alt="Background image" class="w3-display-{{backgroundposition|d('bottommiddle')}}" style="position:fixed;z-index:-1;opacity:0.3">
+	</div>
+{% endif %}
+
+{% if not format.noheader %}
+	{% include "part.header.njk" %}
+{% endif %}
+
+<main class="{{ format.classlist if format.classlist else 'w3-section w3-container' }}">
+	{{ content | safe }}
+</main>
+
+{% if not format.nofooter %}
+	{% include "part.footer.njk" %}
+{% endif %}
+
+<!-- The Modals -->
+<div id="popupLogin" class="w3-modal">
+  <div class="w3-modal-content w3-sand" style="width:50%">
+    <div class="w3-container w3-padding w3-border-amber w3-leftbar w3-rightbar">
+      <span onclick="closeModal('popupLogin');" class="w3-btn w3-display-topright">&times;</span>
+      <div class="w3-center w3-display-top" style="margin:0 24px"><h3>Anmeldung <b>{{site.title}}</b></h3></div>
+      {% include "login.njk" %}
+      {# include "part.login.njk" das müsste erst zusammengeführt werden! #}
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,86 @@
+---
+layout: base.njk
+date: 2026-10-13
+
+lectures:
+ - caption: "Passwörter und Sicherheit"
+   color: pale-yellow
+   url: https://www.stumpp.name/passwoerter-und-sicherheit.html
+   logo: digitalsprechstunde-logo.svg
+   logo_alt: Logo Digitalsprechstunde
+#   
+ - caption: "OT-Sicherheit am Bahnhof"
+   color: light-grey
+   url: https://www.stumpp.name/ot-sicherheit-am-bahnhof.html
+   logo: mslogo-b300.svg
+   logo_alt: Logo M-E-ST
+   logo_width: 6rem
+#   
+ - caption: "Dokumente mit Markdown"
+   color: blue
+   url: /404.html
+#   url: https://www.stumpp.name/dokumente-mit-markdown.html
+   logo: dragon.png
+   logo_alt: drachen
+   logo_width: 5rem
+#   
+ - caption: "Gute Chat-Programme"
+   color: sand
+   url: /404.html
+#   url: https://www.stumpp.name/gute-chat-programme.html
+   logo: LogoLuise-314.png
+   logo_alt: Logo luise Oranienburg
+   logo_width: 7rem
+#   
+ - caption: "Datenschutz im Verein"
+   color: pale-blue
+   url: /404.html
+#   url: https://www.stumpp.name/datenschutz-im-verein.html
+   logo: foerderverein-blau-buch.svg
+   logo_alt: Logo Förderverein Stadtbibliothek Oranienburg
+
+---
+
+<style>
+/* äußere Reihe: legt die Cards nebeneinander */
+.card-row {
+  display: grid;
+  gap: 0em;
+  grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+}
+
+/* jede Card: Bild + Text nebeneinander, vertikal zentriert */
+.card {
+	padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  flex: 1 1 18em;           /* Basisbreite ~18em, darf wachsen/schrumpfen */
+  cursor: pointer;
+  /* w3-sand etc. bleibt als Klasse dran */
+}
+
+.card-logo {
+	margin-left: 8px;
+  width: 8rem;
+  flex: 0 0 auto;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: 1.5rem;        /* h1 ist sonst sehr groß, sprengt die Karte */
+}
+</style>
+
+<main>
+<div class="card-row">
+	{% for card in lectures %}
+		<div class="card w3-{{card.color}}"
+			 onclick="location.href='{{card.url}}';">
+		<img src="/static/img/logo/{{card.logo}}" alt="{{card.logo_alt}}" class="card-logo" style="width:{{card.logo_width|d('8rem')}}">
+		<h1>{{card.caption}}</h1>
+		</div>
+	{% endfor %}	
+
+</main>
+

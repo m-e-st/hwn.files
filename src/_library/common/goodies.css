@@ -1,0 +1,33 @@
+/***
+ *	goodies.css 
+ *
+ *	Copyright 2024 Michael Stumpp (michael@stumpp.name)
+ *
+ */
+/*** ************************************************************** ***/
+
+.hidden-fileselector {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.tag-word {
+	color: red;
+	text-transform: uppercase;
+}
+
+.wx-8   { width:8px }
+.wx-12  { width:12px }
+.wx-16  { width:16px }
+.wx-24  { width:24px }
+.wx-32  { width:32px }
+.wx-48  { width:48px }
+.wx-64  { width:64px }
+.wx-96  { width:96px }
+.wx-128 { width:128px }
+.wx-256 { width:256px }
+.wx-512 { width:512px }

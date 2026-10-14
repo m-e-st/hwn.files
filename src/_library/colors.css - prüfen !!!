@@ -1,0 +1,101 @@
+/***
+ *	colors.css 
+ *
+ *	Copyright 2024 Michael Stumpp (michael@stumpp.name)
+ *  Korrekturen 22.01.2025
+ *  Quelle https://tailwindcss.com/docs/customizing-colors
+ *
+ */
+
+:root {
+	--lime-50:  #f7fee7;
+	--lime-100: #ecfccb;
+	--lime-200: #d9f99d;		/* w3-pale-lime		*/
+	--lime-300: #bef264;
+	--lime-400: #a3e635;		/* w3-lime			*/
+	--lime-500: #84CC16;
+	--lime-600: #65a30d;
+	--lime-700: #4d7c0f;		/* w3-dark-lime		*/
+	--lime-800:	#3f6212; 		
+	--lime-900: #365314;
+	--lime-950: #1a2e05;
+	
+	--amber-50:  #fffbeb;
+	--amber-100: #fef3c7;
+	--amber-200: #fde68a;		/* w3-pale-amber		*/
+	--amber-300: #fcd34d;
+	--amber-400: #fbbf24;		/* w3-amber			*/
+	--amber-500: #f59e0b;
+	--amber-600: #d97706;
+	--amber-700: #b45309;		/* w3-dark-amber		*/
+	--amber-800: #92400e; 		
+	--amber-900: #78350f;
+	--amber-950: #451a03;
+
+	--blue-200: #bfdbfe;
+	--blue-500: #3b82f6;
+	--blue-800: #1e40af;
+
+	--stone-50:	 #fafaf9;		
+	--stone-100: #f5f5f4;
+	--stone-200: #e7e5e4;		/* w3-pale-stone	*/
+	--stone-300: #d6d3d1;
+	--stone-400: #a8a29e;
+	--stone-500: #78716C;		/* w3-stone			*/
+	--stone-600: #57534e;
+	--stone-700: #44403c;
+	--stone-800: #292524;		/* w3-dark-stone	*/
+	--stone-900: #1c1917;		
+	--stone-950: #0c0a09;		
+
+	--slate-200: #e2e8f0;
+	--slate-500: #64748B;
+	--slate-800: #1e293b;
+}
+
+/*** ************************************************************** ***/
+/*** Color definitions 												***/
+
+/** Neudefinition der Farbe 'lime' **/
+.w3-lime,.w3-hover-lime:hover{color:#000!important;background-color:var(--lime-400)!important}
+.w3-text-lime,.w3-hover-text-lime:hover{color:var(--lime-400)!important}
+.w3-border-lime,.w3-hover-border-lime:hover{border-color:var(--lime-400)!important}
+/** Ergänzung der Farben 'pale-lime' und 'dark-lime' **/
+.w3-pale-lime,.w3-hover-pale-lime:hover{color:#000!important;background-color:var(--lime-200)!important}
+.w3-text-pale-lime,.w3-hover-text-pale-lime:hover{color:var(--lime-200)!important}
+.w3-border-pale-lime,.w3-hover-border-pale-lime:hover{border-color:var(--lime-200)!important}
+.w3-dark-lime,.w3-hover-dark-lime:hover{color:#fff!important;background-color:#var(--lime-700)!important}
+.w3-text-dark-lime,.w3-hover-text-dark-lime:hover{color:#var(--lime-700)!important}
+.w3-border-dark-lime,.w3-hover-border-dark-lime:hover{border-color:#var(--lime-700)!important}
+
+/** Neudefinition der Farbe 'amber' **/
+.w3-amber,.w3-hover-amber:hover{color:#000!important;background-color:var(--amber-400)!important}
+.w3-text-amber,.w3-hover-text-amber:hover{color:var(--amber-400)!important}
+.w3-border-amber,.w3-hover-border-amber:hover{border-color:var(--amber-400)!important}
+/** Ergänzung der Farben 'pale-amber' und 'dark-amber' **/
+.w3-pale-amber,.w3-hover-pale-amber:hover{color:#000!important;background-color:var(--amber-200)!important}
+.w3-text-pale-amber,.w3-hover-text-pale-amber:hover{color:var(--amber-200)!important}
+.w3-border-pale-amber,.w3-hover-border-pale-amber:hover{border-color:var(--amber-200)!important}
+.w3-dark-amber,.w3-hover-dark-amber:hover{color:#fff!important;background-color:#var(--amber-700)!important}
+.w3-text-dark-amber,.w3-hover-text-dark-amber:hover{color:#var(--amber-700)!important}
+.w3-border-dark-amber,.w3-hover-border-dark-amber:hover{border-color:#var(--amber-700)!important}
+
+/** Ergänzung der Farbe 'pale-gray' **/
+.w3-pale-gray,w3-pale-gray:hover{color:#000!important;background-color:#ccc!important}
+.w3-text-pale-gray,.w3-hover-text-pale-gray:hover{color:#ccc!important}
+.w3-border-pale-gray,.w3-hover-border-pale-gray:hover{border-color:#ccc!important}
+
+/** Ergänzung der Farbe 'stone' **/
+.w3-pale-stone,.w3-hover-pale-stone:hover{color:#000!important;background-color:var(--stone-200)!important}
+.w3-text-pale-stone,.w3-hover-text-pale-stone:hover{color:var(--stone-200)!important}
+.w3-border-pale-stone,.w3-hover-border-pale-stone:hover{border-color:var(--stone-200)!important}
+
+.w3-stone,.w3-hover-stone:hover{color:#000!important;background-color:var(--stone-500)!important}
+.w3-text-stone,.w3-hover-text-stone:hover{color:var(--stone-500)!important}
+.w3-border-stone,.w3-hover-border-stone:hover{border-color:var(--stone-500)!important}
+
+.w3-dark-stone,.w3-hover-dark-stone:hover{color:#fff!important;background-color:var(--stone-800)!important}
+.w3-text-dark-stone,.w3-hover-text-dark-stone:hover{color:var(--stone-800)!important}
+.w3-border-dark-stone,.w3-hover-border-dark-stone:hover{border-color:var(--stone-800)!important}
+
+/*** ************************************************************** ***/

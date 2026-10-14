@@ -1,0 +1,47 @@
+---
+layout: base.njk
+version: 2026-10-13
+title: "Apps & Files"
+backgroundimage: under-construction-icon.png    
+backgroundposition: middle
+---
+{% if backgroundimage %}
+  <img src="{{ site.imagedir }}/bg/{{ backgroundimage }}"
+       alt="Background image"
+       class="w3-display-{{backgroundposition|d('bottommiddle')}}"
+       style="position:fixed;
+              width:50%;
+              z-index:-1;
+              opacity:0.3;
+              pointer-events:none;">
+{% endif %}
+
+
+<main class="tabs">
+	<nav class=" w3-xlarge">
+		<input type="radio" id="tab1" name="tab-group" checked>
+		<label for="tab1" class="tab-label w3-quarter">Padland</label>
+		<input type="radio" id="tab2" name="tab-group">
+		<label for="tab2" class="tab-label w3-quarter">Vorträge</label>
+		<input type="radio" id="tab3" name="tab-group">
+		<label for="tab3" class="tab-label w3-quarter">Download</label>
+		<input type="radio" id="tab4" name="tab-group">
+		<label for="tab4" class="tab-label w3-quarter">WebXDC</label>
+	</nav>
+	<hr class="w3-border-black w3-topbar">
+	<div class="tab-frame" style="margin-top:-20px">
+		<article class="tab-content" id="content1">
+			<iframe src="/frames/padland.html" loading="lazy"></iframe>
+		</article>
+		<article class="tab-content" id="content2">
+			<iframe src="/frames/lectures.html" loading="lazy"></iframe>
+		</article>
+		<article class="tab-content" id="content3">
+<!--		<iframe src="/frames/download.html" loading="lazy"></iframe>	-->
+		</article>
+		<article class="tab-content" id="content4">
+<!--		<iframe src="/frames/webxdc.html" loading="lazy"></iframe>	-->
+		</article>
+	</div>	
+</main>
+

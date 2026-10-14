@@ -1,0 +1,72 @@
+/* Tabs füllen den Viewport (oder das, was übrig bleibt) */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;          /* Fallback */
+  height: 100dvh;         /* besser auf Mobile (dynamische Toolbar) */
+  /* Falls über der Section noch ein Seiten-Header sitzt: */
+  /* height: calc(100dvh - var(--header-height, 0px)); */
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  padding: 0;
+}
+
+/* Nav nimmt nur ihre natürliche Höhe */
+.tabs > nav {
+  flex: 0 0 auto;
+}
+
+/* Frame nimmt den Rest – min-height:0 ist entscheidend! */
+.tab-frame {
+  flex: 1 1 auto;
+  min-height: 0;          /* sonst weigert sich der Flex-Child zu schrumpfen */
+  position: relative;
+}
+
+/* Hide native radio buttons */
+.tabs input[type="radio"] { display: none; }
+
+.tab-label {
+  display: inline-block;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  color: lightgrey;
+  background-color: WhiteSmoke;
+}
+.tab-label:hover {
+/*
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+*/
+  color: grey;
+  background-color: lightgrey;
+}
+input:checked + .tab-label {
+  color: white;
+  background-color: black;
+}
+
+/* Alle Inhalte versteckt ... */
+.tab-content { display: none; height: 100%; }
+/* Show the corresponding tab when checked */
+nav:has(#tab1:checked) ~ .tab-frame #content1,
+nav:has(#tab2:checked) ~ .tab-frame #content2,
+nav:has(#tab3:checked) ~ .tab-frame #content3,
+nav:has(#tab4:checked) ~ .tab-frame #content4,
+nav:has(#tab5:checked) ~ .tab-frame #content5,
+nav:has(#tab6:checked) ~ .tab-frame #content6,
+nav:has(#tab7:checked) ~ .tab-frame #content7,
+nav:has(#tab8:checked) ~ .tab-frame #content8
+{
+  display: block;
+}
+
+
+/* Iframe füllt seinen Container komplett */
+.tab-content iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

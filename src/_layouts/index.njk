@@ -1,0 +1,12 @@
+---
+type: layout
+layout: main.njk
+version: 2026-04-20
+---
+
+<ms-markdown {% if mdclass %}class="{{mdclass}}"{% endif %}>  <!-- Bindestrich für html-5 custom tags erforderlich! -->
+	{{ content | safe }}
+	{% include "part.index-layout.njk" %}
+</ms-markdown>
+
+

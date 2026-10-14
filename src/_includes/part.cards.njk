@@ -1,0 +1,55 @@
+<!-- displays cards, when included -->
+
+	<section class="grid" aria-label="Product grid">
+	{% set current_group = groups[groupindex] %}
+	{# 1. Your existing loop #}
+	{% for card in current_group %}		
+		<article class="product" role="article">
+			<div class="row">
+				<a href="{{ (''+card.url).slice(1) if (''+card.url).startsWith('$') else card.url |d('#')}}" 
+			{#	   target="{{ 'external' if (''+card.url).startsWith('http') else '_self' }}"  #}
+				   target="external"
+				   class="{{ 'target-extern' if (''+card.url).startsWith('http') else 'target-self' }}">
+					<div class="media" style="height:80px;width:80px">
+						{% if card.icon %}
+							{% include "svg/" + card.icon + ".svg" %}
+						{% else %}
+							{% include "svg/empty.svg" %}
+						{% endif %}
+					</div>
+				</a>
+				<div class="content">
+					<div class="title">{{ card.title | d(card.name) }}</div>
+					<div class="desc">{{ card.desc | d('…') | safe }}</div>
+				</div>
+			</div>
+			<div class="bottom-link" style="display:flex;gap:8px;">
+				<a href="{{ (''+card.url).slice(1) if (''+card.url).startsWith('$') else card.url |d('#')}}" 
+			{#	   target="{{ 'external' if (''+card.url).startsWith('http') else '_self' }}"  #}
+				   target="_self"
+				   class="url target-self"> 
+					{{ (''+card.url).slice(1) if (''+card.url).startsWith('$') else card.url }}
+				</a>
+			</div>
+		</article>
+	{% endfor %}
+	
+	{# 2. Filler Logic #}
+	{% set total_cards = current_group | length %}
+	{% set remainder = total_cards % 12 %}
+	{% if remainder > 0 %}
+		{% set items_to_add = 12 - remainder %}
+		{% for i in range(0, items_to_add) %}
+			<article class="product filler" role="presentation" style="xvisibility: hidden;">
+				<div class="row">
+					<div class="media" style="height:80px;width:80px"></div>
+					<div class="content">
+						<div class="title">&nbsp;</div>
+					</div>
+				</div>
+			</article>
+		{% endfor %}
+	{% endif %}
+	</section>
+
+

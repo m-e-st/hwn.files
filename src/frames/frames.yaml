@@ -1,0 +1,2 @@
+layout: base.njk
+permalink: "{{ page.filePathStem }}.html"

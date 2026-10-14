@@ -1,0 +1,44 @@
+{
+  "name": "files.hwn.de",
+  "version": "0.2.1",
+  "description": "files + padland",
+  "main": ".eleventy.js",
+  "scripts": {
+    "clean": "del public",
+    "dev": "eleventy --serve --watch",
+    "build": "ELEVENTY_ENV=production eleventy ",
+    "disabled-postbuild": "./deploy-site.sh",
+    "browse": "firefox -p \"localhost\" -new-tab localhost:8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-e-st/stumpp.intern.git"
+  },
+  "author": "Michael Stumpp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-e-st/stumpp.intern/issues"
+  },
+  "homepage": "https://github.com/m-e-st/stumpp.intern#readme",
+  "dependencies": {
+    "sjcl": "^1.0.9"
+  },
+  "overrides": {
+    "minimatch": "^10.2.1",
+	"sprintf-js": "^1.0.9",
+	"argparse": "^2.0.1"    
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@grimlink/eleventy-plugin-lucide-icons": "^2.2.4",
+    "del-cli": "^7.0.0",
+    "dotenv": "^17.2.3",
+    "html-minifier-terser": "^7.2.0",
+    "markdown-it": "^14.1.1",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-obsidian-callouts": "^0.3.3",
+    "markdown-it-wikilinks": "^1.4.0"
+	}
+}

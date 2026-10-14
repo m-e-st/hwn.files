@@ -1,0 +1,15 @@
+---
+## STUMPP 2.1 - MAI 2025
+#
+permalink: "/static/{{ page.fileSlug | slug }}.css"
+
+---
+{% include "./_library/common/w3.css" %}
+{% include "./_library/main.css" %}
+{% include "./_library/tabulator.css" %}
+{% include "./_library/common/goodies.css" %}
+
+#versionstring::after {
+				content: "Version {{ pkg.version }}";
+			}
+

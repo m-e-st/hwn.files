@@ -1,0 +1,79 @@
+<!-- stumpp.name - modal login.njk -->
+<!-- wieder modal im Sprachcafe (05.03.2025) -->
+
+<style>
+.topmargin { margin-top:4px; }
+#loginUser,#loginPass  { width:calc(100% - 90px) }
+#loginExec:hover  { background-color: #4CAF50!important }
+#loginClear:hover { background-color: #f44336!important }
+</style>
+<form>
+	<div class="w3-mobile w3-bar">
+			<input	id="loginUser"
+					onchange="loginExec_Enable();"
+					onblur="loginExec_Enable();"
+					tabindex="1"
+					class="w3-bar-item w3-input w3-border" type="text" placeholder="Benutzer">
+			<button class="w3-bar-item w3-button w3-green w3-disabled w3-hover-green" 
+					id = "loginExec"
+					onclick="loginExec_Click();"
+					onmouseover="loginExec_Enable();"
+					tabindex="3"
+					title="Anmelden">{% lucide "log-in", { "size":"20px" }  %}</button>
+	</div>
+	<div class="w3-mobile w3-bar">
+			<input	id="loginPass" 
+					onchange="loginExec_Enable();"
+					onblur="loginExec_Enable();"
+					tabindex="2"
+					class="w3-bar-item w3-input w3-border" type="password" placeholder="Kennwort">
+			<button class="w3-bar-item w3-button w3-pale-red w3-hover-red"   
+					id = "loginClear"
+					onclick="loginClear_Click()"
+					tabindex="4"
+					title="Anmeldung abbrechen">{% lucide "x", { "size":"20px" } %}</button>
+	</div>
+					
+
+</form>
+
+<script>
+var loginRetryCounter = 0;
+
+document.addEventListener("DOMContentLoaded", function(event) {
+	document.getElementById('loginUser').focus();
+});
+
+function loginExec_Click() {
+	const givenUser = document.getElementById('loginUser').value;
+	const givenPass = document.getElementById('loginPass').value;
+	//~ console.log(`user=${givenUser}`,`pass=${givenPass}`);
+	if (user.logon(givenUser, givenPass)) {		/* on successful login  ... */
+		signIn(true);
+	} else {									/* if not authenticated ... */
+		if (++loginRetryCounter >= 3) {
+			user.logoff();	/* if logged in before, throw out after three misses */
+			document.getElementById('loginUser').value = '';
+			signIn(false);
+		}
+		/* stay in modal form if less than max retries */
+	}
+	document.getElementById('loginPass').value = '';	/* always clear pass field !! */
+}
+
+function loginClear_Click() {
+	document.getElementById('loginUser').value = '';
+	document.getElementById('loginPass').value = '';
+	loginExec_Enable();
+}
+
+function loginExec_Enable() {
+	const enabled = (document.getElementById('loginUser').value.length > 0) 
+				 && (document.getElementById('loginPass').value.length > 0);
+	const classList = document.getElementById('loginExec').classList
+	if (enabled)
+		 classList.remove('w3-disabled');
+	else classList.add('w3-disabled');
+}
+
+</script>

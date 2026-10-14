@@ -1,0 +1,27 @@
+# netlify.toml
+# files.hwn.de
+# 13.10.2026
+
+[[redirects]]
+  from = "/logo/*"
+  to = "/files/logo/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pdf/*"
+  to = "/files/pdf/:splat"
+  status = 301
+  force = true
+  
+[[redirects]]
+  from = "/qr/*"
+  to = "/files/qr/:splat"
+  status = 301
+  force = true
+  
+[[redirects]]
+  from = "/webxdc/*"
+  to = "/files/webxdc/:splat"
+  status = 301
+  force = true

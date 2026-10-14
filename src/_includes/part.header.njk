@@ -1,0 +1,187 @@
+<!--
+ part.header.njk
+ 
+ 31.03.2026
+ 07.04.2026 - ids for logotext and ~subtext
+ 21.04.2026 - menu macro - corrected langicon handling
+ 04.05.2026 - hide empty items
+ 16.05.2026 - nologin / nomail
+ 31.05.2026 - black divider margin-bottom: 0px
+ 09.08.2026 - pos: tiny for small text (only in large menus)
+ 11.08.2026 - now uses EmojiCaption
+ 15.08.2026 - target corrected
+-->
+
+<style>
+@media (max-width:331px){ .w3-hide-tiny{display:none!important} }
+@media (max-width:650px){ .w3-hide-title{display:none!important} }
+
+.w3-spin-1{animation:w3-spin-1 4s 1 linear}@keyframes w3-spin-1{0%{transform:rotate(0deg)}100%{transform:rotate(359deg)}}
+.w3-redden{animation:w3-redden 2s 1 linear}@keyframes w3-redden{0%{background-color:inherit)}50%{background-color:#f44336C0}100%{background-color:inherit}}
+.w3-greenen{animation:w3-greenen 2s 1 linear}@keyframes w3-greenen{0%{background-color:inherit)}50%{background-color:#4CAF50C0}100%{background-color:inherit}}
+
+.w3-disabled {cursor:none;opacity:0.5;color:{{color.theme.light}};background-color:{{color.theme.dark}};}
+.w3-disabled:hover {opacity:0.8;color:{{color.theme.dark}};}
+
+.ms-tip {
+	font-size: 80%;
+	font-family: "Lucida Console", "Courier New", monospace;
+	color:{{color.markdown.link}};
+	color:blue;
+}
+.ms-tip:before { content: "🌍 "; }
+
+.w3-dropdown-content {min-width:200px;} /* 10.08.2026 - sonst passen die Vorträge nicht in eine Zeile */
+
+</style>
+
+{% macro attrAnimation(id, effect='spin-1') %}
+	id="{{id}}"
+	onmouseover="document.getElementById('{{id}}').classList.add('w3-{{effect}}');"
+	onmouseout="document.getElementById('{{id}}').classList.remove('w3-{{effect}}');"
+{% endmacro %}
+
+{% macro itemlink(caption, url, pos='', tooltip='', langicon='') %}
+	<a href="{{url|d('#')}}"
+	   target={%- if (''+url).startsWith('http') -%} "{{ site.target }}"
+			  {%- elif ((''+pos).includes('content')) -%} "content"
+			  {%- else -%} "_self"
+			  {%- endif -%}
+	   {# target="{{ 'external' if (''+url).startsWith('http') else '_self' }}" #}
+	   class="w3-button {% if caption==menuitem -%} {{format.activebutton}} {%- endif %} 
+						{{ 'w3-bar-item ' if (pos != 'menu') }}
+						{{ 'w3-tooltip' if (tooltip or lang) }} 
+						{{ 'w3-right' if ((''+pos).includes('right')) }} 
+						{{ 'w3-small' if ((''+pos).includes('tiny')) }} 
+						{{ 'w3-disabled' if ((''+pos).includes('disabled')) }} 
+						{{ 'loggedin' if ((''+pos).includes('hide')) }}
+						{{ 'unlogged' if ((''+pos).includes('anonym')) }}
+						{{ 'ms-about' if (caption == 'über') or (caption == 'about') or (caption == '👨🏻‍🦳') }} 
+			 "
+	>
+		{%- if ((''+pos).includes('indent')) -%}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{%- endif -%}
+		{{ caption|Caption|safe }} {# «{{ tooltip }}» #}
+		{%- if (tooltip or langicon) -%}<span class="w3-text w3-tag"> {{langicon+' '+url|d('') if langicon else tooltip|safe}}</span>{%- endif -%}
+	</a>
+{% endmacro %}
+
+<header class="">
+	<div class="w3-container w3-white">
+		<img src={{site.pagelogo}}
+			 alt="{{site.pagelogotext}}|d('page logo')"
+			 class="w3-left w3-padding w3-hide-tiny w3-circle"
+			 style="margin:0px 0;height:120px;"
+			 {{ attrAnimation("layoutLogo") }}
+			 onclick="window.top.location.reload();" {# 16.05.2026 #}
+			 >  
+{% if site.about -%}<a href="{{site.about}}">{%- endif %}
+
+		<div class="w3-left w3-hide-small">
+			<h2 id="layoutLogotext"    class="ms-logotext" style="margin-top:24px;letter-spacing:3px;font-weight:700">{{ site.title | d("stumpp.intern") }}</h2>
+			<h5 id="layoutLogosubtext" class="ms-logosub w3-tooltip" style="margin-top:-1em">{{ site.description | d("Bertha-von-Suttner-Straße 16") }} 
+{% if not format.noversion %}
+				<span class="w3-text w3-gray w3-text-light-gray">&nbsp; Version {{ pkg.version }} @ {{ site.host }} &nbsp;</span>
+{% endif %}
+			</h5>
+		</div>
+{% if site.about -%}</a>{%- endif %}
+
+		<div class="w3-right w3-white" style="margin-top:32px;">
+{% if not format.nomail %}
+			<button class="w3-btn w3-hide-small w3-circle" {{attrAnimation("layoutMail", "redden")}} >
+				{% lucide "mail" ,{ "stroke": "#888", "stroke-width": 1, "size":"40" } %}
+			</button>
+{% endif %}
+{% if not format.nologin %}
+			<button class="w3-btn xw3-hide-small w3-circle" {{attrAnimation("layoutLogin", "greenen")}}>
+				{% lucide "user" ,{ "stroke": "#888", "stroke-width": 1, "size":"40" } %}
+			</button>
+{% endif %}
+
+<!-- ---------------------- -->
+<!-- MENU FOR SMALL SCREENS -->
+<!-- ---------------------- -->
+			<div class="w3-dropdown-hover w3-white">
+				<button id="layoutMenu" class="w3-btn w3-hide-medium w3-hide-large">
+						{% lucide "menu" ,{ "stroke": "#888", "stroke-width": 1, "size":"40" } %}
+				</button>
+				<div class="w3-dropdown-content w3-bar-block w3-black w3-large" style="right:-16px">
+				{% for item in menu -%}
+				  {%- if item.pos != "off" -%}
+{#					{% set caption = item.caption if item.caption.length > 3 else item.caption + " &nbsp; " + item.name %}			#}
+{#					{% set caption = item.caption if startsWithEmoji(item.caption) else item.caption + " &nbsp; " + item.name %}	#}
+					{% set caption = item.caption | EmojiCaption(item.name) %}
+					{%- if item.menu -%}
+						{%- if item.url -%}
+							{{ itemlink(caption, item.url, item.pos) }}
+						{%- else -%}
+<!--						<span class="w3-bar-item">{{ item.name|safe|Caption }}</span>		-->
+							<span class="w3-bar-item">{{ caption }}</span>
+						{%- endif -%}
+						{%- for subitem in item.menu -%}
+							{%- if subitem.name =='---' or subitem.name =='' or ((''+subitem.pos).includes('tiny')) -%}
+							{%- else -%}
+								{{ itemlink(subitem.name, subitem.url, 'indent-'+subitem.pos ) }}
+							{%- endif -%}
+						{%- endfor -%}
+					{% elif item.url -%}
+						{{ itemlink(caption, item.url, item.pos) }}
+					{% elif item.name == 'version' -%}
+						{{ itemlink('Version ' + pkg.version, '#', 'disabled-'+item.pos) }}
+					{% elif item.name -%}
+					{%- endif -%}
+				  {%- endif -%}
+				{%- endfor -%}
+				</div>
+			</div>
+		</div>
+		<!-- Ende Buttons oben rechts-->
+	</div>
+{% if not format.topics %}
+	<div class="w3-panel w3-black w3-small w3-hide-medium w3-hide-large" style="margin-bottom:0px">&nbsp;</div>
+{% endif %}
+
+<!-- ---------------------- -->
+<!-- MENU FOR LARGE SCREENS -->
+<!-- ---------------------- -->
+	<nav class="w3-bar w3-black w3-large w3-hide-small">
+		<span class="w3-bar-item"></span>
+		<span class="w3-bar-item w3-right"></span>
+		{% for item in menu -%}
+		  {% if item.pos != "off" %}
+			{% if item.menu %}
+				<div class="w3-dropdown-hover {{ 'loggedin' if ((''+item.pos).includes('hide')) }}">
+					{%- if item.url -%}
+						{{ itemlink(item.caption or item.name, item.url, "menu", item.tip, item.lang)}}
+					{%- else -%}
+						<button class="w3-button">{{ subitem.caption or subitem.name|safe|Caption }}</button>
+					{%- endif -%}
+					<div class="w3-dropdown-content w3-bar-block w3-black">
+					{%- for subitem in item.menu -%}
+						{%- if subitem.name =='---' %}
+							{%- if subitem.pos != "hide" -%}
+							<span class="w3-bar-item w3-button w3-disabled" style="cursor:none"></span>
+							{%- endif -%}
+						{%- else %}
+							{{ itemlink(subitem.caption or subitem.name, subitem.url, subitem.pos, subitem.tip, subitem.lang) }}
+						{%- endif %}
+					{%- endfor %}
+					</div>
+				</div>
+			{% elif item.url %}
+				{{ itemlink(item.caption or item.name, item.url, item.pos, item.tip, item.lang)}}
+			{% elif item.name == 'version' %}
+				<span class="w3-bar-item w3-small w3-right w3-padding-small w3-tooltip w3-hide-title
+							 {{ 'loggedin' if ((''+item.pos).includes('hide')) }}
+							 {{ 'unlogged' if ((''+item.pos).includes('anonym')) }}"
+					  style="margin:8px -24px 8px 8px;">
+					Version {{ pkg.version }} <span class="w3-text">@ {{ site.host }}</span>
+				</span>
+			{% elif item.name %}
+				{{ itemlink(item.caption or item.name, '#') }}
+			{% endif %}
+		  {% endif %}
+		{%- endfor %}
+	</nav>
+</header>
+

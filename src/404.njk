@@ -1,0 +1,90 @@
+---
+layout: base.njk
+language: en
+permalink: "/404.html"
+loginonly: false
+
+---
+
+<style>
+	.imgBackground {
+		display: block;
+		margin-top: 5vh;
+		margin-bottom: 5vh;
+		margin-left: auto;
+		margin-right: auto;
+		width: 67%;
+		z-index:-1;
+		opacity:0.4;
+	}
+	.svgIconLeft, .svgIconRight {
+		width: 32px;
+	}
+	.svgIconLeft {
+		float: left;
+		margin: 8px 16px 8px 0;
+	}
+	.svgIconRight {
+		float: right;
+		margin: 8px 0 8px 16px;
+	}
+</style>
+
+<div style="position:relative" onclick="top.location.href='/';">
+	<img src="{{site.imagedir}}/404.png" alt="404" class="imgBackground">
+</div>
+
+<section class="w3-large" onclick="top.location.href='/';">
+	
+	<article class="w3-mobile w3-center ms-border-theme w3-topbar w3-opacity">
+		<div class="w3-container x-w3-padding-large">
+			<div class="">
+				<div class="svgIconLeft">{% include "icon.germany-flag.svg" %}</div>
+				<div class="svgIconRight w3-hide-small ">{% include "icon.germany-flag.svg" %}</div>
+				<h3 class="">{{ text.e404.de }}</h3>
+			</div>
+		</div>
+	</article>
+
+	<article class="w3-mobile w3-center ms-border-theme w3-opacity">
+		<div class="w3-container x-w3-padding-large">
+			<div class="">
+				<div class="svgIconLeft">{% include "icon.united-kingdom-flag.svg" %}</div>
+				<div class="svgIconRight w3-hide-small">{% include "icon.united-kingdom-flag.svg" %}</div>
+				<h3 class="">{{ text.e404.en }}</h3>
+			</div>
+		</div>
+	</article>
+
+	<article class="w3-mobile w3-center ms-border-theme w3-bottombar w3-opacity">
+		<div class="w3-container x-w3-padding-large">
+		<div class="">
+			<div class="svgIconLeft">{% include "icon.spain-flag.svg" %}</div>
+			<div class="svgIconRight w3-hide-small">{% include "icon.spain-flag.svg" %}</div>
+			<h3 class="">{{ text.e404.es }}</h3>
+			</div>
+		</div>
+	</article>
+
+{#	
+	<article class="w3-mobile w3-center w3-topbar w3-bottombar w3-opacity">
+		<div class="w3-container w3-padding-large">
+		<div class="">
+			<div class="svgIconLeft">{% include "icon.japan-flag.svg" %}</div>
+			<div class="svgIconRight w3-hide-small">{% include "icon.japan-flag.svg" %}</div>
+			<h3 class="">{{ text.e404.ja }}</h3>
+			</div>
+		</div>
+	</article>
+#}
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+	const targets = window.location.pathname.toLocaleLowerCase().split(/[\/\.]/);
+	const path = targets[1];
+	console.log ("404", path, targets);
+	if (path.startsWith("termin")) return window.location.replace("/sprachcafe/termine");
+});
+</script>
+

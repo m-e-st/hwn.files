@@ -1,0 +1,233 @@
+# menu intern.stumpp 2.0
+# 10.08.2026
+#
+  - name: Home
+    caption: "🏠"
+    url : /
+#
+  - name: Themen
+    caption: "📂"		# Themen
+    url : /content/themes
+    menu:
+      - name: Übersicht
+        caption: Übersicht über alle Themen
+        url: /content/
+        pos: tiny
+      - name: ---
+      - name: Dienste
+        url: /content/services
+      - name: Doku
+        caption: "Dokumentation"
+        url: /content/docs
+      - name: Vorträge
+        url: /content/lectures
+      - name: Blog
+        url: /content/blog
+      - name: ---
+      - name: espanol
+        caption: Español
+        url: /content/info/espanol
+      - name: info
+        caption: Informationen
+        url: /content/info/info
+      - name: sprachcafe
+        caption: Sprachcafé
+        url: /content/info/sprachcafe
+      - name: tools
+        caption: Werkzeuge
+        url: /content/info/tools
+  - name: Vorträge
+    caption: "🏫"		# Vorträge
+    url : /content/lectures
+    menu:
+      - name: Übersicht
+        caption: Übersicht über alle Vorträge
+        url: /content/lectures
+        pos: tiny
+      - name: ---
+      - name: "OT-Sicherheit …"
+        caption: "OT-Sicherheit am Bahnhof"
+        url: /ot-sicherheit-am-bahnhof.html
+      - name: "Passwörter & Sicherheit"
+        caption: "Passwörter und Sicherheit"
+        url: /passwoerter-und-sicherheit.html
+      - name: ---
+      - name: Übersicht
+        caption: Übersicht über WriteFreely
+        url: /content/blog
+        pos: tiny
+      - name: "Michas Blog"
+        url : "/frames?page=https%3A%2F%2Ftext.tchncs.de%2Fm-e-st%2F"
+        tip : <span class="ms-tip">text.tchncs.de/m-e-st</span>
+      - name: "Software-Werkzeuge"
+        url : "/frames?page=https%3A%2F%2Ftext.tchncs.de%2Fsoftware-werkzeuge%2F"
+        tip : <span class="ms-tip">https://text.tchncs.de/software-werkzeuge</span>
+      - name: "Statische Webseiten"
+        url : "/frames?page=https%3A%2F%2Ftext.tchncs.de%2Fstatische-webseiten%2F"
+        tip : <span class="ms-tip">https://text.tchncs.de/statische-webseiten</span>
+      - name: "Digitale Seniorensprechstunde"
+        url : "/frames?page=https%3A%2F%2Ftext.tchncs.de%2Fdigitale-sprechstunde%2F"
+        tip : <span class="ms-tip">https://text.tchncs.de/digitale-sprechstunde</span>
+#
+  - name: Tools
+    caption: "🛠️"
+    url : /content/tools
+    pos : hide
+    menu:
+      - name: Übersicht
+        caption: Übersicht über alle Werkzeuge
+        url: /content/tools
+        pos: tiny+hide
+      - name: "Benachrichtigung"
+        url : /content/services/nachrichten.html
+        pos : hide
+      - name: "Padland"
+        url : /service/padland.html        
+        pos : hide
+#
+  - name: Sonstiges
+    caption: 🔔
+    url : /service
+    menu:
+      - name: Übersicht
+        caption: Übersicht über alle Dienste
+        pos: tiny
+        url: /service
+      - name: ---
+      - name: "Countdown"
+        url : "/frames?page=https%3A%2F%2Fclassic.stumpp.name/countdown"
+        tip : <span class="ms-tip">classic.stumpp.name/countdown</span>
+      - name: "Datenschutz"
+        url : /datenschutz.html
+        #~ tip : <span class="ms-tip">datenschutz.stumpp.name</span>
+      - name: "Impressum"
+        url : /impressum.html
+        #~ tip : <span class="ms-tip">impressum.stumpp.name</span>
+      - name: "padland"
+        url : /service/padland.html
+        #~ tip : <span class="ms-tip">padland.stumpp.name</span>
+      - name: "Passwort"
+        url : /frames?page=https%3A%2F%2Fbox.stumpp.name%2F%3Faction%3Dpassword
+        tip : <span class="ms-tip">box.stumpp.name/?action=password</span>
+      - name: "QR-Code"
+        url : /service/qrcode.html
+        #~ tip : <span class="ms-tip">qrcode.stumpp.name</span>
+      - name: "Tunnel"
+        url : /frames?page=tunnel
+        #~ tip : <span class="ms-tip">tunnel.stumpp.name</span>            
+      - name: "Würfel"
+        url : "/frames?page=https%3A%2F%2Fwuerfel.hwn.de"
+        tip : <span class="ms-tip">wuerfel.hwn.de</span>
+#
+  - name: "Über"  # abgeschaltet !
+    caption: "👨‍🦳" # multiple emojis
+    pos: right+anonym
+    url: /about.html
+    menu:
+      - name: Übersicht
+        caption: Information zu diesen Seiten
+        url: /about
+        pos: tiny
+      - name: Impressum
+        url: /impressum.html
+      - name: Datenschutz
+        url: /datenschutz.html
+      #~ - name: Familie
+        #~ caption: Familie 
+        #~ pos: off
+        #~ url: /about/family.html
+      - name: ---
+      - name: qrinfo
+        caption: QR Info 
+        pos: hide
+        url: /about/qrinfo.html
+      - name: "⚗️"
+        caption: " " # "⚗️"
+        url: /about/labor
+
+#    
+# --------------------------------------------
+#
+  - name: "über"  # nur ohne Anmeldung !
+    caption: "👨‍🦳" # multiple emojis "👨🏻‍🦳"
+    pos: off	# right+anonym
+    url: /about
+#    
+  - name: "admin"  # nur mit Anmeldung !
+    caption: "🖥️" #  multiple emojis
+    pos: right+hide
+    url: /about/admin
+#
+  - name: "version"
+#    pos: off 
+    pos: right+anonym
+
+
+    #~ menu:
+      #~ - name: ""
+        #~ url : /
+      #~ - name: "container"
+        #~ url : "/?page=container"
+        #~ pos : hide
+      #~ - name: "---"
+        #~ pos : hide
+      #~ - name: QR-Codes
+        #~ url : /content/intern/qrcodes.html
+        #~ pos : hide
+      #~ - name: "---"
+        #~ pos : hide
+      #~ - name: intern
+        #~ url : /content/intern/
+        #~ pos : hide
+      #~ - name: sandbox
+        #~ url : /content/intern/sandbox.html
+        #~ pos : hide
+
+  #~ - name: domain
+    #~ caption: Subdomains
+    #~ url : /domain/
+    #~ menu:
+      #~ - name: ""
+        #~ url : /service/
+      #~ - name: "Countdown"
+        #~ url : /service/countdown
+        #~ tip : <span class="ms-tip">countdown.stumpp.name</span>
+      #~ - name: "Datenschutz"
+        #~ url : /service/datenschutz
+        #~ tip : <span class="ms-tip">datenschutz.stumpp.name</span>
+      #~ - name: "Impressum"
+        #~ url : /service/impressum
+        #~ tip : <span class="ms-tip">impressum.stumpp.name</span>
+      #~ - name: "padland"
+        #~ url : /service/padland.html
+        #~ tip : <span class="ms-tip">padland.stumpp.name</span>
+      #~ - name: "Passwort"
+        #~ url : /service/password
+        #~ tip : <span class="ms-tip">password.stumpp.name</span>
+      #~ - name: "QR-Code"
+        #~ url : /service/qrcode.html
+        #~ tip : <span class="ms-tip">qrcode.stumpp.name</span>
+      #~ - name: "Tunnel"
+        #~ url : /service/tunnel
+        #~ tip : <span class="ms-tip">tunnel.stumpp.name</span>
+  #~ - name: resources
+    #~ caption: ressourcen 
+    #~ url : /content/resources
+    #~ menu:
+      #~ - name: ""
+        #~ url : /content/resources
+  #~ - name: info
+    #~ url : /content/info
+    #~ menu:
+      #~ - name: ""
+        #~ url : /content/info
+      #~ - name: "Doku"
+        #~ url : /content/doku
+        #~ pos: hide
+        #~ tip: <small>Interne vertrauliche Dokumentation</small>
+  #~ - name: web
+    #~ caption: Web
+    #~ url : /content/www
+    #~ menu:
+      #~ - name: ""
+        #~ url : /content/www

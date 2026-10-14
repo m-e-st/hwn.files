@@ -1,0 +1,21 @@
+## Allgemeine Texte
+#
+    lorem: >-
+           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+           Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+           Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+#
+    loremShort: >-
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+    crypted:
+      de: Inhalt ist verschlüsselt.
+      en: Content is encrypted.
+      es: El contenido está encriptado.
+
+    e404:
+      de: "Diese Seite existiert nicht."
+      en: "This page does not exist."
+      es: "Esta página no existe."

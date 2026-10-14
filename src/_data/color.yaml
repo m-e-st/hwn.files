@@ -1,0 +1,48 @@
+# intern.stumpp 2.1 lime
+#
+# Color Definitions
+# #################################
+
+theme:
+  base : "#a3e635"      # sb logo   : text = #000
+  pale : "#f7fee7"      # == l4     : text = #000
+  light: "#d9f99d"      # == l3     : text = #000
+  dark : "#4d7c0f"      # == d3     : text = #FFF
+  heavy: "#365314"      # == d5     : text = #FFF
+#
+# w3-theme
+  l5   : "#F8FDEE"
+  l4   : "#f7fee7"
+  l3   : "#ecfccb"
+  l2   : "#d9f99d"
+  l1   : "#bef264"
+  b    : "#a3e635"
+  d1   : "#84CC16"
+  d2   : "#65a30d"
+  d3   : "#4d7c0f"
+  d4   : "#3f6212"
+  d5   : "#365314"
+
+# web site colors
+
+background: "#ecfccb"   # theme.pale
+highlight : "#E6D135"   # double split complementary 1 of theme ##A3E635
+text      : "black"     # black
+accent    : "#5F5956"   # stone-400
+ruler     : "#4d7c0f"   # yellow.dark
+
+layout:
+  logotext: "#65a30d"   # yellow.d2
+  subtext : "#5F5956"   # stone-400
+
+markdown:
+  headline: "#bef264"   # yellow.l2
+  border  : "#bef264"   # yellow.l2
+  bold    : "#65a30d"   # yellow.d2
+  link    : "#4d7c0f"   # theme.d3
+
+button:
+    base  : "black"         # black        : text = #FFF
+    hover : "#d9f99d"       # theme.light  : text = #000
+    active: "#4d7c0f"       # theme.dark   : text = #FFF
+
