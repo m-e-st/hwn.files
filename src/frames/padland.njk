@@ -2,6 +2,12 @@
 layout: base.njk
 date: 2026-10-13
 
+secret:
+    min: 3
+    len: 6
+    init: 4
+name:
+    min: 4    
 
 groups:
   - cafe
@@ -25,6 +31,18 @@ groups:
         height: 40px; /* Gleiche feste Höhe für Inputs */
         box-sizing: border-box;
     }
+    
+#newpadForm input,
+#newpadForm select {
+    transition: background-color .15s ease;
+}
+
+#newpadForm input:focus,
+#newpadForm select:focus {
+    -moz-outline-radius: 0;
+    outline: none;
+    background-color: {{color.theme.light|d('#FFF8B8')}}!important
+}
 </style>
 
 
@@ -54,12 +72,12 @@ groups:
 		</p>
 	</details>
 	
-	<form id="etherpadForm" class="w3-container">
+	<form id="newpadForm" class="w3-container">
 		<div class="w3-row">
 			<div class="w3-col s12 m2 l1">
 				<label class="ms-logotext w3-small"><b>Gruppe</b></label>
-				<select class="w3-select w3-border ms-pale-theme x-w3-center" name="padGroup" id="newpadGroup">
-					<option value="" selected>&nbsp;???</option>
+				<select class="w3-select w3-border ms-pale-theme x-w3-center" name="newpadGroup" id="newpadGroup">
+					<option value="" selected>&nbsp;</option>
 					{% for group in groups %}
 						<option value="{{group}}" >&nbsp;{{group}}</option>
 					{% endfor %}
@@ -67,85 +85,151 @@ groups:
 			</div>
 			<div class="w3-col s12 m6 l8">
 				<label class="ms-logotext w3-small"><b>Name</b></label>
-				<input class="w3-input w3-border ms-pale-theme" type="text" name="padName" placeholder="Name des Pad" id="newpadName">
+				<input class="w3-input w3-border ms-pale-theme" type="text" name="newpadName" placeholder="Name des Pad" id="newpadName">
 			</div>
 			<div class="w3-col s12 m4 l3">
 				<label class="ms-logotext w3-small"><b>Secret <i id="newpadRecycle" class="w3-large w3-right" style="cursor: pointer;" title="Secret neu generieren">⟳&nbsp;</i></b></label>
-				<input class="w3-input w3-border ms-pale-theme" type="text" name="padSecret" placeholder="Secret" id="newpadSecret">
+				<input class="w3-input w3-border ms-pale-theme" type="text" name="newpadSecret" placeholder="Secret" id="newpadSecret">
 			</div>
 		</div>
 
-		<div>
-			<label class="ms-logotext w3-small"><b>Etherpad URL</b></label>
-			<input class="w3-input w3-border ms-pale-theme" type="text" name="padURL" placeholder="… wird ermittelt …" id="newpadURL" readonly>
+		<div class="w3-row">
+			<div class="w3-col s12 m5 l4">
+				<label class="ms-logotext w3-small"><b>Etherpad</b></label>
+				<input class="w3-input w3-border ms-pale-theme" type="text" name="newpadEther" placeholder="… wird ermittelt …" id="newpadEther" readonly>
+			</div>
+			<div class="w3-col s12 m7 l8">
+				<label class="ms-logotext w3-small"><b>URL</b></label>
+				<input class="w3-input w3-border ms-pale-theme w3-monospace" type="text" name="newpadURL" placeholder="" id="newpadURL" readonly>
+			</div>
 		</div>
 
-		<div class="w3-section w3-right">
+		<div class="w3-section w3-left">
 			<button type="reset"  id="newpadReset"  class="w3-btn w3-medium-gray" style="width:8rem">Reset</button>
+			<button type="button" id="newpadOpen" class="w3-btn ms-light-theme" style="width:8rem">Öffnen</button>
 			<button type="submit" id="newpadSubmit" class="w3-btn ms-theme" style="width:8rem">Anlegen</button>
+			<output class="w3-margin-left w3-text-medium-gray" id="newpadResult">error</output>
 		</div>
-
-{#		
-		
-			<div class="w3-col w3-threequarter w3-margin-right">
-				<label class="ms-logotext w3-small"><b>Titel</b></label>
-				<input class="w3-input w3-border ms-pale-orange" type="text" name="messageTitle" placeholder="Überschrift der Nachricht" id="messageTitle" value="{{ 'TEST via Announcement-Kanäle' if not site.env }}">
-
-				<label class="ms-logotext w3-small"><b>Nachricht</b></label>
-				<textarea class="w3-input w3-border ms-pale-orange" type="text" name="messageText" rows="7" required placeholder="Text der Nachricht" style="resize: vertical;"></textarea>
-			</div>
-			<div class="w3-rest">
-				<label class="ms-logotext w3-small"><b>Priorität</b></label>
-				 <select class="w3-select w3-border ms-pale-orange" name="messagePriority">
-					<option value="1">&nbsp; minimal</option>
-					<option value="2">&nbsp; niedrig</option>
-					<option value="3" selected>&nbsp; normal</option>
-					<option value="4">&nbsp; hoch</option>
-					<option value="5">&nbsp; kritisch</option>
-				</select>
-
-				<label class="ms-logotext w3-small"><b>Symbol</b></label>							<!-- https://docs.ntfy.sh/emojis/ -->
-				<select class="w3-select w3-border ms-pale-orange" name="messageSymbol" id="messageSymbol">
-					<option value="" selected> </option>
-					{% for symbol in ntfy.symbols %}
-						<option value="{{symbol.name}}" >&nbsp; {{symbol.icon}} &nbsp;{{symbol.text}}</option>
-					{% endfor %}
-				</select>
-				<div class="ms-pale-orange w3-border w3-margin-top w3-padding w3-normal">
-					<input class="w3-check" style="height:16px;top:2px" name="ntfy"		type="checkbox" checked="checked" disabled>
-					<label class="">Benachrichtigung</label><br>
-					<input class="w3-check" style="height:16px;top:2px" name="telegram"	type="checkbox" checked="checked">
-					<label id="telegramLabel">Telegram-Kanal {{ "🔖" if env else "🏷️" }}</label><br>
-					<input class="w3-check" style="height:16px;top:2px" name="mail"		type="checkbox" xchecked="checked" disabled>
-					<label class="w3-text-grey">Mail-Versand</label><br style="margin-bottom:16px;">
-					<input class="w3-check" style="height:16px;top:2px" name="test"		type="checkbox" {{ 'checked="checked"' if not site.env }} id="testCheckbox">
-					<label class="{{ 'w3-text-grey' if site.env }}">Testbetrieb</label>
-				</div>
-			</div>
-		</div>
-		<div class="w3-bar w3-padding-24">
-			<output class="w3-margin-left" id="messageResult"></output>
-			<div class="w3-right">
-				 <select class="w3-select w3-border w3-pale-blue" name="messagePreset">
-					<option value=" " selected>&nbsp; </option>
-					<option value="ausfall">&nbsp; Sprachcafé fällt aus</option>
-					<option value="buerger">&nbsp; Sprachcafé im Bürgerzentrum</option>
-					<option value="regine" >&nbsp; Sprachcafé im Regine-Hildebrandt-Haus</option>
-					<option value="gruenen">&nbsp; Sprachcafé im Büro der Grünen</option>
-					<option value="online" >&nbsp; Online Sprachcafé als Videokonferenz</option>
-				</select>
-			</div>
-			<span class="w3-btn w3-disabled w3-right"><b>Textvorschlag</b></span>
-		</div>
-#}		
 	</form>
 		
 		
 <script>
 
+function normalizeGermanChars(str) {
+    return str
+        // Vorumwandlung für deutsche Sonderfälle
+        .replace(/ä/g, 'ae')
+        .replace(/ö/g, 'oe')
+        .replace(/ü/g, 'ue')
+        .replace(/ß/g, 'ss')
+        .replace(/Ä/g, 'Ae')
+        .replace(/Ö/g, 'Oe')
+        .replace(/Ü/g, 'Ue')
+        .normalize('NFKD')					// Decompose
+        .replace(/[\u0300-\u036f]/g, '');	// Remove accents
+}
+
+function randomString(length = {{secret.len}}) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789'; /* I l and O 0 removed */
+  return Array.from({length}, () => 
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join('');
+}
+
+function etherpadName (group="", name="", secret = "") {
+	if (!name || !group || !secret) return "… unvollständig …";
+	if (name.length < {{name.min}}) return "… Name zu kurz …";
+	if (secret.length < {{secret.min}}) return "… Secret zu kurz …";
+	return group + '-' + name + '-' + secret;
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
+	const VALID_PATTERN = /^[a-zA-Z0-9_.]*$/;
+	const padForm = document.getElementById('newpadForm');
+	const padGroup = document.getElementById('newpadGroup');
+	const padName = document.getElementById('newpadName');
+	const padSecret = document.getElementById('newpadSecret');
+	const padEther = document.getElementById('newpadEther');document.getElementById('newpadEther');
+	const padURL = document.getElementById('newpadURL');
+	const padResult = document.getElementById('newpadResult');
+	const buttonSubmit = document.getElementById('newpadSubmit');
+	const buttonOpen = document.getElementById('newpadOpen');
+	padResult.textContent = "… wartet …";
 	
+	function setFormValues() {
+		padEther.value = etherpadName(padGroup.value, padName.value, padSecret.value);
+		padURL.value = (padEther.value.charAt(0) == `…`)	? "" : 'https://pad.hwn.de/p/' + padEther.value;
+		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
+	}
+
+/** INIT OF FORM **/
+	if (! padForm) {
+		console.log (padForm, document.getElementById('newpadForm'), padResult);
+		alert("Es gibt technische Probleme mit dem Formular, welche leider verhindern, dass ein Etherpad angelegt werden kann werden kann.");
+		padResult.innerHTML = "<b class='w3-text-red'>Fehler im Formular!</b>";
+		window.location.assign("/"); // go back, if failing
+		return;
+	}
+	if (padSecret.value == "") padSecret.value = randomString({{secret.init}});
+	setFormValues();
+
+/** PADGROUP **/
+	padGroup.addEventListener("change", function(e) {
+		setFormValues();
+	});
+
+	
+/** PADNAME **/
+	padName.addEventListener("input", function(e) {		// Prevent bad input
+		const value = normalizeGermanChars(e.target.value);
+		e.target.value = value.replace(/[^a-zA-Z0-9_.]/g, "");
+	});
+	padName.addEventListener("blur", function(e) {		// Validate on blur/change
+		if (e.target.value && !VALID_PATTERN.test(e.target.value)) {
+			e.target.setCustomValidity("Nur Buchstaben, Zahlen, . und _ erlaubt");
+			e.target.reportValidity();
+		} else {
+			e.target.setCustomValidity("");
+		}
+	});
+	padName.addEventListener("input", function() {		// Clear validation message when user starts typing again
+		this.setCustomValidity("");
+		setFormValues();
+	});	
+	
+/** PADSECRET **/
+	padSecret.addEventListener("input", function(e) {		// Prevent bad input
+		e.target.value = e.target.value.replace(/[^a-zA-Z0-9_.]/g, "");
+	});
+	padSecret.addEventListener("blur", function(e) {		// Validate on blur/change
+		if (e.target.value && !VALID_PATTERN.test(e.target.value)) {
+			e.target.setCustomValidity("Nur Buchstaben, Zahlen, . und _ erlaubt");
+			e.target.reportValidity();
+		} else {
+			e.target.setCustomValidity("");
+		}
+	});
+	padSecret.addEventListener("input", function() {		// Clear validation message when user starts typing again
+		this.setCustomValidity("");
+		setFormValues();
+	});	
+
+/** PADRECYCLE **/	
+	document.getElementById('newpadRecycle').addEventListener("click", async function(event) {
+		padSecret.value = randomString();
+		setFormValues();
+	});	
+
+/** SUBMIT **/
+    padForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        // 1. Initial State
+        padResult.textContent = "… in Arbeit …";	
+		buttonSubmit.disabled = buttonOpen.disabled = true;
+        /** …… **/
+	});
 });
 
 </script>		
