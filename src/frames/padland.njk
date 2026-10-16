@@ -112,7 +112,31 @@ groups:
 		</div>
 	</form>
 		
-		
+	<details class="w3-panel ms-pale-theme w3-padding w3-justify" style="margin-top:0px;">
+		<summary>Erläuterungen</summary>
+		<p>
+			Die Anlage neuer Etherpads auf dem Server 
+			<a class="w3-tag" href="https://pad.hwn.de" target="{{site.target}}">pad.hwn.de</a> 
+			ist gesperrt.
+			Neue Etherpads können nur noch über dieses Formular vorgenommen werden.
+			der Aufruf bestehender Etherpads ist weiterhin direkt möglich.
+		</p><p>
+			Nach Behebung der Vandalismusschäden durch Bots entsprechen alle 
+			neuen Etherpads einem festen Namensschema aus drei Teilen:
+			<ul>
+				<li><b>Gruppe</b>: Die Namen der Gruppen sind fest vorgegeben. 
+					Alle verfügbaren Gruppen sind im Auswahlfeld hinterlegt.
+					Neue Gruppen werden nach Absprache eingerichtet.</li>
+				<li><b>Name</b>: Der Name kann frei gewählt werden. 
+					Der Name sollte möglichst keine Sonderzeichen enthalten,
+					um eine gültigen Aufruflink für das Etherpad zu erzeugen.</li>
+				<li><b>Secret</b>: Das Secret ist eine zufällige Zeichenkette
+					die verhindern soll, dass die Adresse des Etherpads leicht 
+					zu erraten ist. Sie wird automatisch generiert.</li>
+			</ul>
+		</p>
+	</details>
+			
 <script>
 
 function normalizeGermanChars(str) {
@@ -229,6 +253,19 @@ document.addEventListener("DOMContentLoaded", function() {
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
         /** …… **/
+        alert("Diese Funktion steht leider noch nicht zur Verfügung.");
+		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
+	});
+/** OPEN **/
+    buttonOpen.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        // 1. Initial State
+        padResult.textContent = "… in Arbeit …";	
+		buttonSubmit.disabled = buttonOpen.disabled = true;
+        /** …… **/
+        alert("Diese Funktion steht leider noch nicht zur Verfügung.");
+		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 });
 
