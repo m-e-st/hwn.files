@@ -5,7 +5,8 @@ export async function handler(event, context) {
     }
 
     try {
-        const { padname } = JSON.parse(event.body);
+        const body = JSON.parse(event.body || '{}');
+        const padname = body.padname;
 
         // Sicherheitsprüfung für den Padnamen
         if (typeof padname !== 'string' || !/^[A-Za-z0-9_.-]{1,40}$/.test(padname)) {
@@ -13,12 +14,20 @@ export async function handler(event, context) {
         }
 
         const padApiKey = process.env.PAD_APIKEY;
-        const padUrl = process.env.PAD_URL || '';
-        const padCreate = process.env.PAD_CREATE || '';
-        const padPrefix = 'verify-';
+        const padUrl = process.env.PAD_URL;
+        const padCreate = process.env.PAD_CREATE;
 
-        // URL sauber zusammensetzen (verhindert doppelte Schrägstriche //)
+        // Debug-Ausgaben für die Netlify Logs
+        console.log("DEBUG - PAD_URL:", padUrl);
+        console.log("DEBUG - PAD_CREATE:", padCreate);
+        console.log("DEBUG - APIKEY vorhanden:", !!padApiKey);
+
+        if (!padApiKey || !padUrl || !padCreate) {
+            return { statusCode: 500, body: JSON.stringify({ error: 'Environment variables missing on Netlify!' }) };
+        }
+
         const targetUrl = `${padUrl.replace(/\/$/, '')}/${padCreate.replace(/^\//, '')}`;
+        const padPrefix = 'verify-';
 
         const params = new URLSearchParams({
             apikey: padApiKey,
@@ -27,19 +36,21 @@ export async function handler(event, context) {
 
         const response = await fetch(targetUrl, {
             method: 'POST',
-      headers: {
+            headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: params,
         });
 
-        const data = await response.json();
+        const responseText = await response.text();
+        console.log("DEBUG - Etherpad Response:", responseText);
 
         return {
             statusCode: 200,
-            body: JSON.stringify(data),
+            body: responseText,
         };
     } catch (error) {
+        console.error("DEBUG - Function Crash Error:", error.message);
         return { statusCode: 500, body: JSON.stringify({ error: error.message }) };
     }
 };

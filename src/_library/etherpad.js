@@ -12,7 +12,7 @@ const etherpad = (function () {
     /* ------------------------------------------------------------------ */
     /* PRODUKTION: Auf Netlify (ruft die sichere Serverless Function auf) */
     /* ------------------------------------------------------------------ */
-    async function createPad(padname) {
+	async function createPad(padname) {
         const cleanName = validate(padname);
         const url = '/.netlify/functions/createPad';
 
@@ -25,7 +25,14 @@ const etherpad = (function () {
                 body: JSON.stringify({ padname: cleanName }),
             });
 
-            const data = await response.json();
+            const responseText = await response.text();
+            
+            // Prüfen, ob die Netlify Function einen HTTP-Fehler zurückgibt
+            if (!response.ok) {
+                throw new Error(`Netlify Error (${response.status}): ${responseText}`);
+            }
+
+            const data = JSON.parse(responseText);
             console.log('Erfolgreich erstellt:', data);
             return data;
         } catch (error) {
