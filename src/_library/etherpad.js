@@ -14,7 +14,7 @@ const etherpad = (function () {
     /* ------------------------------------------------------------------ */
 	async function createPad(padname) {
         const cleanName = validate(padname);
-        const url = '/.netlify/functions/createPad';
+        const url = '/.netlify/functions/createpad';
 
         try {
             const response = await fetch(url, {
