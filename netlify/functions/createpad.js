@@ -21,6 +21,7 @@ export async function handler(event, context) {
         console.log("DEBUG - PAD_URL:", padUrl);
         console.log("DEBUG - PAD_CREATE:", padCreate);
         console.log("DEBUG - APIKEY vorhanden:", !!padApiKey);
+        console.log("DEBUG - padname:", padname);
 
         if (!padApiKey || !padUrl || !padCreate) {
             return { statusCode: 500, body: JSON.stringify({ error: 'Environment variables missing on Netlify!' }) };
