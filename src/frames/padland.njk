@@ -167,14 +167,13 @@ function etherpadName (group="", name="", secret = "") {
 	return group + '-' + name + '-' + secret;
 }
 
-
 document.addEventListener("DOMContentLoaded", function() {
 	const VALID_PATTERN = /^[a-zA-Z0-9_.]*$/;
 	const padForm = document.getElementById('newpadForm');
 	const padGroup = document.getElementById('newpadGroup');
 	const padName = document.getElementById('newpadName');
 	const padSecret = document.getElementById('newpadSecret');
-	const padEther = document.getElementById('newpadEther');document.getElementById('newpadEther');
+	const padEther = document.getElementById('newpadEther');
 	const padURL = document.getElementById('newpadURL');
 	const padResult = document.getElementById('newpadResult');
 	const buttonSubmit = document.getElementById('newpadSubmit');
@@ -183,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	function setFormValues() {
 		padEther.value = etherpadName(padGroup.value, padName.value, padSecret.value);
-		padURL.value = (padEther.value.charAt(0) == `…`)	? "" : 'https://pad.hwn.de/p/' + padEther.value;
+		padURL.value = (padEther.value.charAt(0) == `…`)	? "" : '{{ site.var.PAD_PADURL }}/' + padEther.value;
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	}
 
@@ -252,8 +251,10 @@ document.addEventListener("DOMContentLoaded", function() {
         // 1. Initial State
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
+		console.log ("Submit: Name=", padEther.value)
+		etherpad.create (padEther.value);
         /** …… **/
-        alert("Diese Funktion steht leider noch nicht zur Verfügung.");
+        //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 /** OPEN **/
@@ -263,8 +264,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // 1. Initial State
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
-        /** …… **/
-        alert("Diese Funktion steht leider noch nicht zur Verfügung.");
+        window.open(padURL.value, "{{site.target}}").focus()
+        //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.\n" + padEther.value + "\n{{site.target}}");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 });
