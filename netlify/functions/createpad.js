@@ -28,11 +28,10 @@ export async function handler(event, context) {
         }
 
         const targetUrl = `${padUrl.replace(/\/$/, '')}/${padCreate.replace(/^\//, '')}`;
-        const padPrefix = 'verify-';
 
         const params = new URLSearchParams({
             apikey: padApiKey,
-            padID: padPrefix + padname
+            padID: padname
         });
 
         const response = await fetch(targetUrl, {

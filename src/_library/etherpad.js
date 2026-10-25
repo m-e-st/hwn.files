@@ -1,5 +1,4 @@
 const etherpad = (function () {
-    const PAD_PREFIX = 'verify-';
 
     const validate = (padname) => {
         if (typeof padname !== 'string' || !/^[A-Za-z0-9_.-]{1,40}$/.test(padname)) {
@@ -57,7 +56,7 @@ const etherpad = (function () {
 
         const params = new URLSearchParams({
             apikey: padApiKey,
-            padID: PAD_PREFIX + cleanName
+            padID: cleanName
         });
 
         try {
