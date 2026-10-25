@@ -252,8 +252,26 @@ document.addEventListener("DOMContentLoaded", function() {
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
 		console.log ("Submit: Name=", padEther.value)
-		etherpad.create (padEther.value);
-        /** …… **/
+		let result = etherpad.create (padEther.value);
+		result.then ( function(result) {
+			padResult.classList.remove ('w3-text-green', 'w3-text-orange', 'w3-text-medium-gray');
+			padResult.classList.add ( (result.code==0) ? 'w3-text-green' : (result.code==1) ? 'w3-text-orange' : 'w3-text-medium-gray');
+			if (result.code == 0) { 
+				padResult.classList.add ("w3-text-green");
+				padResult.textContent = `Etherpad "${padEther.value}" wurde angelegt.`;
+				console.log("🗑", result.data.deletionToken)
+			} else if (result.code == 1) {
+				padResult.classList.add ("w3-text-orange");
+				if (result.message.includes("padID does already exist")) {
+					window.open(padURL.value, "{{site.target}}").focus();
+					padResult.textContent = `Etherpad "${padEther.value}" ist bereits vorhanden und wurde geöffnet.`;
+				} else {
+					padResult.textContent = `Fehler: ${result.message}`;
+				}
+			} else padResult.textContent = `Fehler #${result.code}: ${result.message}`;
+
+
+		});
         //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});

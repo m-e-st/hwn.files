@@ -18,10 +18,10 @@ export async function handler(event, context) {
         const padCreate = process.env.PAD_CREATE;
 
         // Debug-Ausgaben für die Netlify Logs
-        console.log("DEBUG - PAD_URL:", padUrl);
-        console.log("DEBUG - PAD_CREATE:", padCreate);
-        console.log("DEBUG - APIKEY vorhanden:", !!padApiKey);
-        console.log("DEBUG - padname:", padname);
+        //~ console.log("DEBUG - PAD_URL:", padUrl);
+        //~ console.log("DEBUG - PAD_CREATE:", padCreate);
+        //~ console.log("DEBUG - APIKEY vorhanden:", !!padApiKey);
+        //~ console.log("DEBUG - padname:", padname);
 
         if (!padApiKey || !padUrl || !padCreate) {
             return { statusCode: 500, body: JSON.stringify({ error: 'Environment variables missing on Netlify!' }) };
@@ -43,7 +43,7 @@ export async function handler(event, context) {
         });
 
         const responseText = await response.text();
-        console.log("DEBUG - Etherpad Response:", responseText);
+        //~ console.log("DEBUG - Etherpad Response:", responseText);
 
         return {
             statusCode: 200,

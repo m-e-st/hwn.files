@@ -67,7 +67,7 @@ const etherpad = (function () {
                 },
                 body: params,
             });
-console.log("URL=",url, "params=",params);
+			//~ console.log("URL=",url, "params=",params);
             const data = await response.json();
             console.log('Erfolgreich erstellt:', data);
             return data;
