@@ -50,25 +50,11 @@ groups:
 	<details class="w3-panel ms-pale-theme w3-padding w3-justify" style="margin-top:0px;">
 		<summary>Neues Etherpad anlegen</summary>
 		<p>
-			Die Anlage neuer Etherpads auf dem Server 
+			Die Anlage neuer Etherpads direkt auf dem Server 
 			<a class="w3-tag" href="https://pad.hwn.de" target="{{site.target}}">pad.hwn.de</a> 
-			ist gesperrt.
-			Neue Etherpads können nur noch über dieses Formular vorgenommen werden.
+			ist wegen Vandalismus vorübergehend gesperrt.
+			Neue Etherpads können nur noch über dieses Formular erzeigt werden. werden.
 			der Aufruf bestehender Etherpads ist weiterhin direkt möglich.
-		</p><p>
-			Nach Behebung der Vandalismusschäden durch Bots entsprechen alle 
-			neuen Etherpads einem festen Namensschema aus drei Teilen:
-			<ul>
-				<li><b>Gruppe</b>: Die Namen der Gruppen sind fest vorgegeben. 
-					Alle verfügbaren Gruppen sind im Auswahlfeld hinterlegt.
-					Neue Gruppen werden nach Absprache eingerichtet.</li>
-				<li><b>Name</b>: Der Name kann frei gewählt werden. 
-					Der Name sollte möglichst keine Sonderzeichen enthalten,
-					um eine gültigen Aufruflink für das Etherpad zu erzeugen.</li>
-				<li><b>Secret</b>: Das Secret ist eine zufällige Zeichenkette
-					die verhindern soll, dass die Adresse des Etherpads leicht 
-					zu erraten ist. Sie wird automatisch generiert.</li>
-			</ul>
 		</p>
 	</details>
 	
@@ -108,21 +94,24 @@ groups:
 			<button type="reset"  id="newpadReset"  class="w3-btn w3-medium-gray" style="width:8rem">Reset</button>
 			<button type="button" id="newpadOpen" class="w3-btn ms-light-theme" style="width:8rem">Öffnen</button>
 			<button type="submit" id="newpadSubmit" class="w3-btn ms-theme" style="width:8rem">Anlegen</button>
-			<output class="w3-margin-left w3-text-medium-gray" id="newpadResult">error</output>
+			<output class="w3-mobile w3-margin-left w3-text-medium-gray" id="newpadResult">error</output>
 		</div>
 	</form>
 		
 	<details class="w3-panel ms-pale-theme w3-padding w3-justify" style="margin-top:0px;">
+		<summary>Gespeicherte Etherpads</summary>
+		<p class="w3-deep-orange w3-padding w3-center">Momentan gibt es noch keine Verwaltung von Etherpad-Namen</p>
+	</details>
+		
+	<details class="w3-panel ms-pale-theme w3-padding w3-justify" style="margin-top:0px;">
 		<summary>Erläuterungen</summary>
 		<p>
-			Die Anlage neuer Etherpads auf dem Server 
-			<a class="w3-tag" href="https://pad.hwn.de" target="{{site.target}}">pad.hwn.de</a> 
-			ist gesperrt.
-			Neue Etherpads können nur noch über dieses Formular vorgenommen werden.
-			der Aufruf bestehender Etherpads ist weiterhin direkt möglich.
+			Die Etherpad-Seite wurde in der Vergangenheit massiv mit Spam und illegalen Inhalten geflutet.
+			Dennoch sollen die Etherpads weiterhin anonym ohne Registrierung oder Anmeldung benutzbar sein.
+			Dazu wird ein Namenschema eingeführt, welches zukünftig die automatische Bereinigung der Etherpad-Plattform ermöglicht.
 		</p><p>
-			Nach Behebung der Vandalismusschäden durch Bots entsprechen alle 
-			neuen Etherpads einem festen Namensschema aus drei Teilen:
+			Etherpads müssen zukünftig dem Namenschema «Gruppe-Name-Secret» entsprechen.
+			(z.B. "privat-notizen-123456").
 			<ul>
 				<li><b>Gruppe</b>: Die Namen der Gruppen sind fest vorgegeben. 
 					Alle verfügbaren Gruppen sind im Auswahlfeld hinterlegt.
@@ -134,6 +123,14 @@ groups:
 					die verhindern soll, dass die Adresse des Etherpads leicht 
 					zu erraten ist. Sie wird automatisch generiert.</li>
 			</ul>
+		</p><p>
+			Die Anlage neuer Etherpads auf dem Server 
+			<a class="w3-tag" href="https://pad.hwn.de" target="{{site.target}}">pad.hwn.de</a> 
+			ist vorübergehen gesperrt.
+			Neue Etherpads können derzeit nur  über dieses Formular vorgenommen werden.
+			der Aufruf bestehender Etherpads ist weiterhin direkt möglich.
+			Sobald alle vorhandenen Etherpads auf das neue Namen-Schema umgestellt sind
+			und die automatische Bereinigung in Betrieb ist, können Etherpads auch wieder direkt angelegt werden.
 		</p>
 	</details>
 			
@@ -247,31 +244,36 @@ document.addEventListener("DOMContentLoaded", function() {
 /** SUBMIT **/
     padForm.addEventListener("submit", async function(event) {
         event.preventDefault();
+        
+        function resultMessage(code, text) {
+			return '<span class="w3-margin.left';
+		}
+        
 
         // 1. Initial State
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
 		console.log ("Submit: Name=", padEther.value)
-		let result = etherpad.create (padEther.value);
+		
+        // 2. Create Etherpad - // symbols ✅⚠️⛔ 🗑️
+        let result = etherpad.create(padEther.value);
 		result.then ( function(result) {
-			padResult.classList.remove ('w3-text-green', 'w3-text-orange', 'w3-text-medium-gray');
-			padResult.classList.add ( (result.code==0) ? 'w3-text-green' : (result.code==1) ? 'w3-text-orange' : 'w3-text-medium-gray');
-			if (result.code == 0) { 
-				padResult.classList.add ("w3-text-green");
-				padResult.textContent = `Etherpad "${padEther.value}" wurde angelegt.`;
-				console.log("🗑", result.data.deletionToken)
-			} else if (result.code == 1) {
-				padResult.classList.add ("w3-text-orange");
-				if (result.message.includes("padID does already exist")) {
-					window.open(padURL.value, "{{site.target}}").focus();
-					padResult.textContent = `Etherpad "${padEther.value}" ist bereits vorhanden und wurde geöffnet.`;
-				} else {
-					padResult.textContent = `Fehler: ${result.message}`;
-				}
-			} else padResult.textContent = `Fehler #${result.code}: ${result.message}`;
-
-
-		});
+				if (result.code == 0) {
+					padResult.innerHTML = `✅ <b class="w3-text-green">Neues Etherpad wurde erzeugt.</b>` +
+								((result.data) ? `<br><span class="w3-text-dark-gray">🗑️ Lösch-Token: <b class="w3-monospace">${result.data.deletionToken}</b></span>` : '');
+					console.log("🗑", result.data.deletionToken);
+				} else if (result.code == 1) {
+					if (result.message.includes("padID does already exist")) {
+						window.open(padURL.value, "{{site.target}}").focus();
+						padResult.innerHTML = `⚠️ <b class="w3-text-orange">Vorhandenes Etherpad wurde geöffnet.</b>`;
+					} else {
+						padResult.innerHTML = `⛔ <b class="w3-text-orange">Fehler #1: ${result.message}</b>`;
+					}
+				} else padResult.innerHTML = `⛔ <b class="w3-text-red">Fehler #${result.code}: ${result.message}</b>`;  
+			})
+			//~ .catch( (error) {
+				//~ padResult.innerHTML = `⛔ <b class="w3-red">${error.message}</b>`;
+			//~ });
         //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
@@ -283,6 +285,7 @@ document.addEventListener("DOMContentLoaded", function() {
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
         window.open(padURL.value, "{{site.target}}").focus()
+        padResult.innerHTML = `✅  <b class="w3-text-green">Etherpad "${padEther.value}" wurde geöffnet.</b>`;
         //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.\n" + padEther.value + "\n{{site.target}}");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
