@@ -180,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	function setFormValues() {
 		padEther.value = etherpadName(padGroup.value, padName.value, padSecret.value);
 		padURL.value = (padEther.value.charAt(0) == `…`)	? "" : '{{ site.var.PAD_PADURL }}/' + padEther.value;
+		padResult.textContent = "… wartet …";
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	}
 
