@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	const padResult = document.getElementById('newpadResult');
 	const buttonSubmit = document.getElementById('newpadSubmit');
 	const buttonOpen = document.getElementById('newpadOpen');
-	padResult.textContent = "… wartet …";
+	setFormValues();
 	
 	function setFormValues() {
 		padEther.value = etherpadName(padGroup.value, padName.value, padSecret.value);
@@ -277,10 +277,9 @@ document.addEventListener("DOMContentLoaded", function() {
 					}
 				} else padResult.innerHTML = `⛔ <b class="w3-text-red">Fehler #${result.code}: ${result.message}</b>`;  
 			})
-			//~ .catch( (error) {
-				//~ padResult.innerHTML = `⛔ <b class="w3-red">${error.message}</b>`;
-			//~ });
-        //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.");
+			.catch( (error) {
+				padResult.innerHTML = `⛔ <b class="w3-red">${error.message}</b>`;
+			});
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 /** OPEN **/
@@ -292,7 +291,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		buttonSubmit.disabled = buttonOpen.disabled = true;
         window.open(padURL.value, "{{site.target}}").focus()
         padResult.innerHTML = `✅  <b class="w3-text-green">Etherpad "${padEther.value}" wurde geöffnet.</b>`;
-        //~ alert("Diese Funktion steht leider noch nicht zur Verfügung.\n" + padEther.value + "\n{{site.target}}");
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 });
