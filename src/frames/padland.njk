@@ -242,6 +242,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		setFormValues();
 	});	
 
+/** Reset **/
+    padForm.addEventListener("reset", async function(event) {
+		setFormValues();
+	});		
+
 /** SUBMIT **/
     padForm.addEventListener("submit", async function(event) {
         event.preventDefault();
