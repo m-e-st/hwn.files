@@ -250,37 +250,33 @@ document.addEventListener("DOMContentLoaded", function() {
 /** SUBMIT **/
     padForm.addEventListener("submit", async function(event) {
         event.preventDefault();
-        
-        function resultMessage(code, text) {
-			return '<span class="w3-margin.left';
-		}
-        
 
         // 1. Initial State
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
-		console.log ("Submit: Name=", padEther.value)
 		
         // 2. Create Etherpad - // symbols ✅⚠️⛔ 🗑️
-        let result = etherpad.create(padEther.value);
-		result.then ( function(result) {
+        const result = etherpad.create(padEther.value);
+		result.then ((result) => {
 				if (result.code == 0) {
 					padResult.innerHTML = `✅ <b class="w3-text-green">Neues Etherpad wurde erzeugt.</b>` +
 								((result.data) ? `<br><span class="w3-text-dark-gray">🗑️ Lösch-Token: <b class="w3-monospace">${result.data.deletionToken}</b></span>` : '');
-					console.log("🗑", result.data.deletionToken);
+					console.log("🗑", result.data?.deletionToken);
 				} else if (result.code == 1) {
 					if (result.message.includes("padID does already exist")) {
-						window.open(padURL.value, "{{site.target}}").focus();
+						const padWindow = window.open(padURL.value, "{{site.target}}"); padWindow?.focus();
 						padResult.innerHTML = `⚠️ <b class="w3-text-orange">Vorhandenes Etherpad wurde geöffnet.</b>`;
 					} else {
 						padResult.innerHTML = `⛔ <b class="w3-text-orange">Fehler #1: ${result.message}</b>`;
 					}
 				} else padResult.innerHTML = `⛔ <b class="w3-text-red">Fehler #${result.code}: ${result.message}</b>`;  
 			})
-			.catch( (error) {
+			.catch( (error) => {
 				padResult.innerHTML = `⛔ <b class="w3-red">${error.message}</b>`;
+			})
+			.finally(() => {
+				buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 			});
-		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 /** OPEN **/
     buttonOpen.addEventListener("click", function(event) {
@@ -289,8 +285,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // 1. Initial State
         padResult.textContent = "… in Arbeit …";	
 		buttonSubmit.disabled = buttonOpen.disabled = true;
-        window.open(padURL.value, "{{site.target}}").focus()
-        padResult.innerHTML = `✅  <b class="w3-text-green">Etherpad "${padEther.value}" wurde geöffnet.</b>`;
+        const padWindow = window.open(padURL.value, "{{site.target}}"); 
+		if (padWindow) {
+			padWindow.focus();
+			padResult.innerHTML =
+				`✅ <b class="w3-text-green">Etherpad "${padEther.value}" wurde geöffnet.</b>`;
+		} else {
+			padResult.textContent =
+				'⛔ <b class="w3-text-red"> Der Browser hat das Öffnen des Etherpads blockiert.</b>';
+		}
 		buttonSubmit.disabled = buttonOpen.disabled = (padURL.value == "");
 	});
 });
