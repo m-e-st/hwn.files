@@ -1,0 +1,50 @@
+---
+layout: base.njk
+permalink: "{{ page.filePathStem }}.html"
+
+# redirect:
+#   delay: 10000
+#   url:   https://www.hwn.de
+---
+
+<!--
+	Default-Seite für primären iFrame in index.html
+	Diese Seite wird im iFrame geladen, wenn die angeforderte Seite nicht vorhanden ist.
+	So sind z.B. die Seiten /container.html und /intranet.html im öffentlichen Auftritt nicht vorhanden.
+-->
+
+<style>
+	.rd_main {	
+		height:100vh; 
+		background-color: #DEF; 
+  	}
+
+	.rd_image {	
+		height:100vh; 
+		background-color: #DEF; 
+		background-image: url('/static/img/dragon.png');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: center; 
+		background-size: auto;
+  	}
+	.rd_text {
+		text-align: center;	
+		padding: 0.5em;
+		color: #ace;
+		font-size:1.5rem;
+		font-size-adjust:0.58;
+		font-family: Arial, Helvetica, sans-serif;
+		font-stretch:expanded;
+		font-variant: small-caps;
+		font-weight: bold;
+  	}		
+</style>
+
+<main class="rd_main rd_image" onclick="window.top.location.reload();">
+{% if redirect %}
+	<div class="rd_text">
+		Sie werden weitergeleitet &hellip;
+	</div>
+{% endif %}
+</main>
